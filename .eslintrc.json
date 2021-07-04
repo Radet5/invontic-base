@@ -1,0 +1,52 @@
+{
+	"env": {
+	    "browser": true,
+	    "es2021": true,
+	    "node": true
+	},
+	"extends": [
+	    "eslint:recommended",
+	    "plugin:react/recommended",
+	    "plugin:react-hooks/recommended",
+		"plugin:prettier/recommended"
+	],
+	"settings": {
+	    "react": {
+		"version": "detect"
+	    }
+	},
+	"parserOptions": {
+	    "ecmaFeatures": {
+		"jsx": true
+	    },
+	    "ecmaVersion": 12,
+	    "sourceType": "module"
+	},
+	"plugins": [
+	    "react"
+	],
+	"rules": {
+	    "react/prop-types": "off",
+	    "no-mixed-spaces-and-tabs": "off"
+	},
+	"ignorePatterns": [
+	    "parcel-build", "dist", "build", "public"
+	],
+	"overrides": [
+		{
+			"files": ["**/*.{ts,tsx}"],
+			"parser": "@typescript-eslint/parser",
+			"extends": [
+			    "eslint:recommended",
+			    "plugin:react/recommended",
+			    "plugin:react-hooks/recommended",
+			    "plugin:@typescript-eslint/recommended",
+				"plugin:prettier/recommended"
+			],
+			"plugins": [
+			    "react",
+			    "@typescript-eslint"
+			]
+		}
+	]
+}
