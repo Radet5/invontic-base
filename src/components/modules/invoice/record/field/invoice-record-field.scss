@@ -1,0 +1,14 @@
+.m-invoiceRecordField {
+
+  display: inline-block;
+
+  &__label {
+    display: none;
+  }
+
+  &__input {
+    &.-active{
+      background-color: red;
+    }
+  }
+}
