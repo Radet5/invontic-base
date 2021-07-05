@@ -1,8 +1,10 @@
 import React from "react";
 
+import InvonticBase from "./modules/invontic-base/invontic-base";
+
 const App = () => (
   <React.Fragment>
-    <div>Welcome to Invontic</div>
+    <InvonticBase />
   </React.Fragment>
 );
 
