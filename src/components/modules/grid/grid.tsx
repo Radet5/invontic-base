@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-import GridRecordInterface from "./record/grid-record-interface";
-import { FieldInterface } from "./record/grid-record";
+import { FieldInterface } from "./record/field/grid-record-field";
 import GridRecord from "./record/grid-record";
 
 interface GridProps {
   entityId: string;
   fields: Array<FieldInterface>;
   records: any;
+  defaultRecord: any;
   setRecords: (records: any) => void;
 }
 
@@ -17,10 +17,8 @@ const Grid = (props: GridProps): JSX.Element => {
 
   const addRecord = () => {
     const newRecord = {
+      ...props.defaultRecord,
       recordId: `${props.entityId}-${props.records.length}`,
-      itemId: "",
-      quantity: 0,
-      cost: 0,
     };
     props.setRecords([...props.records, newRecord]);
     focus(props.records.length);

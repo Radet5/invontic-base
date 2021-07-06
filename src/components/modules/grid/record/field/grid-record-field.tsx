@@ -2,12 +2,15 @@ import React, { LegacyRef } from "react";
 
 import "./grid-record-field.scss";
 
-interface ImportRecordFieldProps {
-  type: string;
+export interface FieldInterface {
   value: string | number;
   name: string;
+  type: string;
   id: string;
   label: string;
+}
+
+interface ImportRecordFieldProps extends FieldInterface {
   onChange: (key: string, value: string | number) => void;
   onFocus: (id: string) => void;
   active: boolean;

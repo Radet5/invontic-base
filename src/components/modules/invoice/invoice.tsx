@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 
 import Grid from "../grid/grid";
-import GridRecordInterface from "../grid/record/grid-record-interface";
 
 interface InvoiceProps {
   invoiceId: string;
+}
+
+interface InvoiceRecordInterface {
+  recordId: string | null;
+  itemId: string;
+  quantity: number;
+  cost: number;
 }
 
 const fields = [
@@ -33,14 +39,22 @@ const fields = [
 
 const Invoice = (props: InvoiceProps): JSX.Element => {
   const [invoiceRecords, setInvoiceRecords] = useState<
-    Array<GridRecordInterface>
+    Array<InvoiceRecordInterface>
   >([]);
+
+  const defaultInvoiceRecord = {
+    itemId: "",
+    quantity: 0,
+    cost: 0,
+  };
+
   return (
     <Grid
       entityId={props.invoiceId}
       fields={fields}
       records={invoiceRecords}
       setRecords={setInvoiceRecords}
+      defaultRecord={defaultInvoiceRecord}
     />
   );
 };

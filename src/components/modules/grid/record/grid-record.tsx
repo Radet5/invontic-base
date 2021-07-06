@@ -1,7 +1,7 @@
 import React, { createRef, useEffect, useRef, useState } from "react";
 
-import GridRecordInterface from "./grid-record-interface";
 import GridRecordField from "./field/grid-record-field";
+import { FieldInterface } from "./field/grid-record-field";
 
 import "./grid-record.scss";
 
@@ -15,14 +15,6 @@ interface GridRecordProps {
   activeField: string;
   setActiveField: (id: string) => void;
   fields: Array<FieldInterface>;
-}
-
-export interface FieldInterface {
-  value: string | number;
-  name: string;
-  type: string;
-  id: string;
-  label: string;
 }
 
 const injectValues = (
