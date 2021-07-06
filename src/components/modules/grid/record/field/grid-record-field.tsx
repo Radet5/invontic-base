@@ -1,6 +1,6 @@
-import React, { LegacyRef, MutableRefObject } from "react";
+import React, { LegacyRef } from "react";
 
-import "./invoice-record-field.scss";
+import "./grid-record-field.scss";
 
 interface ImportRecordFieldProps {
   type: string;
@@ -22,15 +22,15 @@ const ImportRecordField = (props: ImportRecordFieldProps): JSX.Element => {
   };
 
   return (
-    <div className="m-invoiceRecordField">
-      <label className="m-invoiceRecordField__label" htmlFor={props.id}>
+    <div className="m-gridRecordField">
+      <label className="m-gridRecordField__label" htmlFor={props.id}>
         {props.label}
       </label>
       <input
         className={
           props.active
-            ? "m-invoiceRecordField__input -active"
-            : "m-invoiceRecordField__input"
+            ? "m-gridRecordField__input -active"
+            : "m-gridRecordField__input"
         }
         type={props.type}
         name={props.name}

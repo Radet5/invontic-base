@@ -1,53 +1,41 @@
 import React, { createRef, useEffect, useRef, useState } from "react";
 
-import InvoiceRecordInterface from "./invoice-record-interface";
-import InvoiceRecordField from "./field/invoice-record-field";
+import GridRecordInterface from "./grid-record-interface";
+import GridRecordField from "./field/grid-record-field";
 
-import "./invoice-record.scss";
+import "./grid-record.scss";
 
-interface InvoiceRecordProps extends InvoiceRecordInterface {
+interface GridRecordProps {
+  record: any;
   updateRecord: (key: string, value: string | number) => void;
   active: boolean;
   onFocus: () => void;
-  moveToNextRecord: (itemId: string) => void;
-  moveToPrevRecord: (itemId: string) => void;
+  moveToNextRecord: () => void;
+  moveToPrevRecord: () => void;
   activeField: string;
   setActiveField: (id: string) => void;
+  fields: Array<FieldInterface>;
 }
 
-const fields = ({ itemId, quantity, cost }: InvoiceRecordInterface) => {
-  return [
-    {
-      value: itemId,
-      name: "itemId",
-      type: "text",
-      id: "itemId",
-      label: "Item Id",
-    },
-    {
-      value: quantity,
-      name: "quantity",
-      type: "number",
-      id: "quantity",
-      label: "Quantity",
-    },
-    {
-      value: cost,
-      name: "cost",
-      type: "number",
-      id: "cost",
-      label: "Cost per Unit",
-    },
-  ];
-};
-
-interface FieldInterface {
+export interface FieldInterface {
   value: string | number;
   name: string;
   type: string;
   id: string;
   label: string;
 }
+
+const injectValues = (
+  fields: Array<FieldInterface>,
+  record: any
+): Array<FieldInterface> => {
+  const newFields = [...fields];
+  return newFields.map((field) => {
+    const newField = { ...field };
+    newField.value = record[field.name];
+    return newField;
+  });
+};
 
 const getFieldPosition = (
   fields: Array<FieldInterface>,
@@ -74,19 +62,15 @@ const getNextFieldId = (
   return fields[nextPosistion].id;
 };
 
-const getFirstFieldId = (fields: Array<FieldInterface>) => {
-  return fields[0].id;
-};
-
-const InvoiceRecord = (props: InvoiceRecordProps): JSX.Element => {
-  const fieldData = fields(props);
+const GridRecord = (props: GridRecordProps): JSX.Element => {
+  const fieldData = injectValues(props.fields, props.record);
   const refObject: any = {};
   fieldData.forEach((field) => (refObject[field.id] = createRef()));
   const fieldRefs = useRef(refObject);
 
   useEffect(() => {
     props.active ? focus(props.activeField) : null;
-  }, [props.active]);
+  }, [props.active, props.activeField]);
 
   const onFocus = (id: string) => {
     props.setActiveField(id);
@@ -118,7 +102,7 @@ const InvoiceRecord = (props: InvoiceRecordProps): JSX.Element => {
           const nextFieldId = getNextFieldId(fieldData, id);
           if (isLastField(fieldData, id)) {
             props.setActiveField(nextFieldId);
-            props.moveToNextRecord(nextFieldId);
+            props.moveToNextRecord();
           } else {
             focus(nextFieldId);
           }
@@ -127,13 +111,13 @@ const InvoiceRecord = (props: InvoiceRecordProps): JSX.Element => {
       case "ArrowDown":
         {
           event.preventDefault();
-          props.moveToNextRecord(props.activeField);
+          props.moveToNextRecord();
         }
         break;
       case "ArrowUp":
         {
           event.preventDefault();
-          props.moveToPrevRecord(props.activeField);
+          props.moveToPrevRecord();
         }
         break;
     }
@@ -141,7 +125,7 @@ const InvoiceRecord = (props: InvoiceRecordProps): JSX.Element => {
 
   const fieldElements = fieldData.map((field) => {
     return (
-      <InvoiceRecordField
+      <GridRecordField
         key={`field-${field.id}`}
         {...field}
         onChange={props.updateRecord}
@@ -154,11 +138,9 @@ const InvoiceRecord = (props: InvoiceRecordProps): JSX.Element => {
     );
   });
 
-  const recordClass = props.active
-    ? "m-invoiceRecord -active"
-    : "m-invoiceRecord";
+  const recordClass = props.active ? "m-gridRecord -active" : "m-gridRecord";
 
   return <div className={recordClass}>{fieldElements}</div>;
 };
 
-export default InvoiceRecord;
+export default GridRecord;
