@@ -1,9 +1,24 @@
 .m-gridRecordField {
 
   display: inline-block;
+  position: relative;
 
+  // float label below input when focussed, otherwise show label as a placeholder
   &__label {
-    display: none;
+    position: absolute;
+    font-size: 0.8em;
+    top: 20%;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transition: 0.5s;
+    pointer-events: none;
+    &.-active,&.-valid {
+      top: 45%;
+      font-size: 0.4em;
+      margin-top: -16px;
+      text-align: left;
+    }
   }
 
   &__input {

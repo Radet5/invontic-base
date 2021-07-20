@@ -26,7 +26,16 @@ const ImportRecordField = (props: ImportRecordFieldProps): JSX.Element => {
 
   return (
     <div className="m-gridRecordField">
-      <label className="m-gridRecordField__label" htmlFor={props.id}>
+      <label
+        className={
+          props.active
+            ? "m-gridRecordField__label -active"
+            : props.value
+            ? "m-gridRecordField__label -valid"
+            : "m-gridRecordField__label"
+        }
+        htmlFor={props.id}
+      >
         {props.label}
       </label>
       <input
