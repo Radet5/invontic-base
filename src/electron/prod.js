@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require("electron");
+require("./file-manager/file-manager");
 const createWindow = () => {
   const window = new BrowserWindow({
     autoHideMenuBar: true,

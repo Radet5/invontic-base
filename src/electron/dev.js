@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require("electron");
-
+require("./file-manager/file-manager");
 try {
   require("electron-reloader")(module);
   // eslint-disable-next-line no-empty
@@ -8,6 +8,9 @@ try {
 const createWindow = () => {
   const window = new BrowserWindow({
     autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
 
   window.loadFile("build/index.html");

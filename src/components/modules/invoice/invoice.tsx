@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import Grid from "../grid/grid";
+import FileHandler from "../file-handler/file-handler";
 
 interface InvoiceProps {
   invoiceId: string;
@@ -41,6 +42,7 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
   const [invoiceRecords, setInvoiceRecords] = useState<
     Array<InvoiceRecordInterface>
   >([]);
+  const [fileSaveStatus, setFileSaveStatus] = useState("");
 
   const defaultInvoiceRecord = {
     itemId: "",
@@ -48,14 +50,30 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
     cost: 0,
   };
 
+  console.log(invoiceRecords);
+  console.log(fileSaveStatus);
+
+  const saveInvoice = () => {
+    const handler = new FileHandler();
+    const filestatus = handler.saveFile(
+      props.invoiceId,
+      "invoice",
+      invoiceRecords
+    );
+    setFileSaveStatus(filestatus);
+  };
+
   return (
-    <Grid
-      entityId={props.invoiceId}
-      fields={fields}
-      records={invoiceRecords}
-      setRecords={setInvoiceRecords}
-      defaultRecord={defaultInvoiceRecord}
-    />
+    <React.Fragment>
+      <Grid
+        entityId={props.invoiceId}
+        fields={fields}
+        records={invoiceRecords}
+        setRecords={setInvoiceRecords}
+        defaultRecord={defaultInvoiceRecord}
+      />
+      <button onClick={saveInvoice}>Save</button>
+    </React.Fragment>
   );
 };
 

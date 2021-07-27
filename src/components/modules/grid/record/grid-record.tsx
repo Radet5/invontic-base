@@ -86,7 +86,6 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
   };
 
   const handleKeyUp = (event: React.KeyboardEvent, id: string) => {
-    console.log("hi");
     switch (event.key) {
       case "Enter":
         {
