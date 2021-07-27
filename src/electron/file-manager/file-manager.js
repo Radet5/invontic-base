@@ -5,22 +5,23 @@ const baseDir = electron.app.getPath("userData") + "/";
 
 const fileHandler = {
   // require("file-handler"); i.e. move this to it's own file
-  saveJSONFile: ({ fileType, fileName, fileData }) => {
+  saveJSONFile: (event, { fileType, fileName, fileData }) => {
     console.log(fileName, fileType, fileData);
     const directory = `${baseDir}${fileType}/`;
     fs.mkdir(directory, { recursive: true }, (err) => {
       if (err) {
-        return "error making directory";
+        event.reply("save-json-file-reply", "Error creating directory");
+      } else {
+        const filePath = `${directory}${fileName}.json`;
+        fs.writeFile(filePath, JSON.stringify(fileData), (err) => {
+          if (err) {
+            event.reply("save-json-file-reply", "Error saving file");
+          } else {
+            event.reply("save-json-file-reply", "saved");
+          }
+        });
       }
     });
-    const filePath = `${directory}${fileName}.json`;
-    try {
-      fs.writeFileSync(filePath, JSON.stringify(fileData));
-      return "saved";
-    } catch (e) {
-      console.log(e);
-      return "error saving file";
-    }
   },
   listFiles: (fileType, event) => {
     const directory = `${baseDir}${fileType}/`;
@@ -37,8 +38,7 @@ const fileHandler = {
 const { ipcMain } = require("electron");
 
 ipcMain.on("save-json-file", (event, fileData) => {
-  const fileStatus = fileHandler.saveJSONFile(fileData);
-  event.reply("save-json-file-reply", fileStatus);
+  fileHandler.saveJSONFile(event, fileData);
 });
 
 ipcMain.on("list-files", (event, fileType) => {
