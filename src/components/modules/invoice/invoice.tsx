@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Grid from "../grid/grid";
-import FileHandler from "../file-handler/file-handler";
+import SaveButton from "../save-button/save-button";
 
 interface InvoiceProps {
   invoiceId: string;
@@ -42,7 +42,11 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
   const [invoiceRecords, setInvoiceRecords] = useState<
     Array<InvoiceRecordInterface>
   >([]);
-  const [fileSaveStatus, setFileSaveStatus] = useState("");
+  const [editTimestamp, setEditTimestamp] = useState("");
+
+  useEffect(() => {
+    setEditTimestamp(new Date().toISOString());
+  }, [invoiceRecords]);
 
   const defaultInvoiceRecord = {
     itemId: "",
@@ -51,17 +55,6 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
   };
 
   console.log(invoiceRecords);
-  console.log(fileSaveStatus);
-
-  const saveInvoice = () => {
-    const handler = new FileHandler();
-    const filestatus = handler.saveFile(
-      props.invoiceId,
-      "invoice",
-      invoiceRecords
-    );
-    setFileSaveStatus(filestatus);
-  };
 
   return (
     <React.Fragment>
@@ -72,7 +65,13 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
         setRecords={setInvoiceRecords}
         defaultRecord={defaultInvoiceRecord}
       />
-      <button onClick={saveInvoice}>Save</button>
+      <SaveButton
+        editTimestamp={editTimestamp}
+        fileName={props.invoiceId}
+        fileType="invoice"
+        fileData={invoiceRecords}
+        label="Save Invoice"
+      />
     </React.Fragment>
   );
 };
