@@ -18,11 +18,13 @@
     "license": "GPL-3.0-or-later",
     "dependencies": {
         "react": "17.0.1",
-        "react-dom": "17.0.1"
+        "react-dom": "17.0.1",
+        "uuid": "^8.3.2"
     },
     "devDependencies": {
         "@types/node": "^16.4.3",
         "@types/react": "^17.0.13",
+        "@types/uuid": "^8.3.1",
         "@typescript-eslint/eslint-plugin": "^4.28.1",
         "@typescript-eslint/parser": "^4.28.1",
         "electron": "11.1.1",

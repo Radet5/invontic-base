@@ -6,24 +6,40 @@ class FileHandler {
     });
   };
 
-  onFileList = (onFileList: (files: string[]) => void): void => {
-    ipcRenderer.on("list-files-reply", (event: unknown, arg: string[]) => {
-      onFileList(arg);
+  onFileList = (
+    onFileList: (files: Array<Record<string, string>>) => void
+  ): void => {
+    ipcRenderer.on(
+      "list-files-reply",
+      (event: unknown, arg: Array<Record<string, string>>) => {
+        onFileList(arg);
+      }
+    );
+  };
+
+  onFileLoad = (onFileLoad: (fileContents: any) => void): void => {
+    ipcRenderer.on("load-json-file-reply", (event: unknown, arg: any) => {
+      arg.error ? console.warn(arg.error) : null;
+      onFileLoad(arg);
     });
   };
 
-  listFiles = (fileType: string): void => {
-    ipcRenderer.send("list-files", fileType);
+  loadFile = (fileName: string, subDirectory: string): void => {
+    ipcRenderer.send("load-json-file", { fileName, subDirectory });
+  };
+
+  listFiles = (subDirectory: string): void => {
+    ipcRenderer.send("list-files", subDirectory);
   };
 
   saveFile = (
     fileName: string,
-    fileType: string,
+    subDirectory: string,
     data: any,
     editTimestamp?: string
   ): void => {
-    const fileData = { editTimestamp, data, fileName, fileType };
-    ipcRenderer.send("save-json-file", { fileName, fileType, fileData });
+    const fileData = { editTimestamp, data, fileName, subDirectory };
+    ipcRenderer.send("save-json-file", { fileName, subDirectory, fileData });
   };
 }
 

@@ -3,7 +3,7 @@ import FileHandler from "../file-handler/file-handler";
 
 interface SaveButtonProps {
   fileName: string;
-  fileType: string;
+  subDirectory: string;
   fileData: any;
   editTimestamp: string;
   label: string;
@@ -11,7 +11,7 @@ interface SaveButtonProps {
 
 const SaveButton = ({
   fileName,
-  fileType,
+  subDirectory,
   fileData,
   editTimestamp,
   label,
@@ -33,7 +33,7 @@ const SaveButton = ({
 
   const saveFile = () => {
     setSaveStatus("Saving...");
-    fileHandler.saveFile(fileName, fileType, fileData, editTimestamp);
+    fileHandler.saveFile(fileName, subDirectory, fileData, editTimestamp);
   };
 
   return (

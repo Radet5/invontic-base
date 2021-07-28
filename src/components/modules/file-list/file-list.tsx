@@ -3,27 +3,52 @@ import React, { useState, useEffect } from "react";
 import FileHandler from "../file-handler/file-handler";
 
 interface FileListProps {
-  fileType: string;
+  subDirectory: string;
+  setSelectedFile: (fileName: string) => void;
 }
 
-const FileList = ({ fileType }: FileListProps): JSX.Element => {
+const FileList = ({
+  subDirectory,
+  setSelectedFile,
+}: FileListProps): JSX.Element => {
   const [fileHandler] = useState(() => new FileHandler());
-  const [files, setFiles] = useState<string[]>([]);
+  const [files, setFiles] = useState<Array<Record<string, string>>>([]);
 
   useEffect(() => {
     fileHandler.onFileList(setFiles);
   }, [fileHandler]);
 
+  console.log(files);
+
   useEffect(() => {
-    fileHandler.listFiles(fileType);
-  }, [fileHandler, fileType]);
+    fileHandler.listFiles(subDirectory);
+  }, [fileHandler, subDirectory]);
+
+  const handleFileSelect = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    fileName: string
+  ) => {
+    e.preventDefault();
+    setSelectedFile(fileName);
+  };
 
   return (
     <div>
-      <h1>File List</h1>
-      {files.map((file) => (
-        <li key={`file-${file}`}>{file.split(".")[0]}</li>
-      ))}
+      <div style={{ textTransform: "capitalize" }}>{subDirectory} files</div>
+      {files.map((fileObj) => {
+        const fileName = fileObj.name;
+        const fileType = fileObj.type;
+        if (fileType === "file") {
+          const fileDisplayName = fileName.split(".")[0];
+          return (
+            <li key={`file-${fileName}`} style={{ fontSize: "0.5em" }}>
+              <span onClick={(e) => handleFileSelect(e, fileDisplayName)}>
+                {fileDisplayName}
+              </span>
+            </li>
+          );
+        }
+      })}
     </div>
   );
 };

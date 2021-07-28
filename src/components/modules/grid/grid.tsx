@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { FieldInterface } from "./record/field/grid-record-field";
 import GridRecord from "./record/grid-record";
@@ -8,20 +8,34 @@ interface GridProps {
   fields: Array<FieldInterface>;
   records: any;
   defaultRecord: any;
+  label: string;
   setRecords: (records: any) => void;
 }
 
-const Grid = (props: GridProps): JSX.Element => {
+const Grid = ({
+  entityId,
+  fields,
+  records,
+  defaultRecord,
+  label,
+  setRecords,
+}: GridProps): JSX.Element => {
   const [activeField, setActiveField] = useState("itemId");
   const [activeRecord, setActiveRecord] = useState(-1);
 
+  useEffect(() => {
+    if (records.length == 0) {
+      setRecords([{ ...defaultRecord, recordId: `${entityId}-0` }]);
+    }
+  }, [records, setRecords, defaultRecord, entityId]);
+
   const addRecord = () => {
     const newRecord = {
-      ...props.defaultRecord,
-      recordId: `${props.entityId}-${props.records.length}`,
+      ...defaultRecord,
+      recordId: `${entityId}-${records.length}`,
     };
-    props.setRecords([...props.records, newRecord]);
-    focus(props.records.length);
+    setRecords([...records, newRecord]);
+    focus(records.length);
   };
 
   const moveToPrevRecord = () => {
@@ -31,9 +45,9 @@ const Grid = (props: GridProps): JSX.Element => {
   };
 
   const moveToNextRecord = () => {
-    if (activeRecord > -1 && activeRecord < props.records.length - 1) {
+    if (activeRecord > -1 && activeRecord < records.length - 1) {
       focus(activeRecord + 1);
-    } else if (activeRecord == props.records.length - 1) {
+    } else if (activeRecord == records.length - 1) {
       addRecord();
     }
   };
@@ -44,13 +58,13 @@ const Grid = (props: GridProps): JSX.Element => {
 
   const updateRecord = (index: number) => {
     return function (key: string, value: string | number) {
-      const newRecords = [...props.records];
-      newRecords[index] = { ...props.records[index], [key]: value };
-      props.setRecords(newRecords);
+      const newRecords = [...records];
+      newRecords[index] = { ...records[index], [key]: value };
+      setRecords(newRecords);
     };
   };
 
-  const recordElements = props.records.map((record: any, index: number) => {
+  const recordElements = records.map((record: any, index: number) => {
     return (
       <GridRecord
         record={record}
@@ -62,14 +76,16 @@ const Grid = (props: GridProps): JSX.Element => {
         moveToPrevRecord={moveToPrevRecord}
         activeField={activeField}
         setActiveField={setActiveField}
-        fields={props.fields}
+        fields={fields}
       />
     );
   });
 
   return (
     <div className="o-grid">
-      <div>Grid</div>
+      <div>
+        {label} {entityId}
+      </div>
       {recordElements}
       <button onClick={addRecord}>Add Record</button>
     </div>
