@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import Invoice from "../invoice/invoice";
 import FileList from "../file-list/file-list";
+import { Drawer } from "../drawer/drawer";
 
 const vendors = [
   { id: "0", name: "Vendor A" },
@@ -29,13 +30,24 @@ const InvonticBase = (): JSX.Element => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          width: "90vw",
+          width: "fit-content",
+          maxHeight: "90vh",
+          overflow: "auto",
         }}
       >
-        <div style={{ width: "250px", overflow: "auto" }}>
-          <FileList subDirectory="invoice" setSelectedFile={setSelectedInvoice} />
-        </div>
-        <div style={{ width: "fit-content" }}>
+        <Drawer>
+          <FileList
+            subDirectory="invoice"
+            setSelectedFile={setSelectedInvoice}
+          />
+        </Drawer>
+        <div
+          style={{
+            width: "fit-content",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
           {selectedInvoice ? (
             <Invoice vendors={vendors} invoiceId={selectedInvoice} />
           ) : null}
@@ -43,6 +55,9 @@ const InvonticBase = (): JSX.Element => {
             New Invoice
           </button>
         </div>
+        <Drawer side="right">
+          Oh there&apos;s stuff in here too like ots and lots of stuff wow!
+        </Drawer>
       </div>
     </div>
   );
