@@ -1,0 +1,14 @@
+.o-data-table {
+
+  &__row {
+    cursor: pointer;
+
+    &:hover {
+      background-color: #064663;
+    }
+  }
+
+  &__cell {
+    text-align: left;
+  }
+}
