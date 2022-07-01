@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import Invoice from "../invoice/invoice";
 import FileList from "../file-list/file-list";
 import { Drawer } from "../drawer/drawer";
+import { InvoiceNavigator } from "../invoice-navigator/invoice-navigator";
 
 const vendors = [
   { id: "0", name: "Vendor A" },
@@ -35,11 +36,8 @@ const InvonticBase = (): JSX.Element => {
           overflow: "auto",
         }}
       >
-        <Drawer>
-          <FileList
-            subDirectory="invoice"
-            setSelectedFile={setSelectedInvoice}
-          />
+        <Drawer defaultOpen={false}>
+          <InvoiceNavigator />
         </Drawer>
         <div
           style={{
@@ -56,7 +54,10 @@ const InvonticBase = (): JSX.Element => {
           </button>
         </div>
         <Drawer side="right">
-          Oh there&apos;s stuff in here too like ots and lots of stuff wow!
+          <FileList
+            subDirectory="invoice"
+            setSelectedFile={setSelectedInvoice}
+          />
         </Drawer>
       </div>
     </div>
