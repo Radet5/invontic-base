@@ -3,14 +3,16 @@ import "./drawer.scss";
 
 interface DrawerProps {
   children: React.ReactNode;
+  defaultOpen?: boolean;
   side?: "left" | "right";
 }
 
 export const Drawer = ({
   children,
+  defaultOpen = false,
   side = "left",
 }: DrawerProps): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(defaultOpen);
 
   const openClass = isOpen ? " m-drawer--open" : "";
   if (side === "left") {
