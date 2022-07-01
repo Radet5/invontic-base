@@ -3,6 +3,10 @@
   &__row {
     cursor: pointer;
 
+    &--selected {
+      background-color: #064663;
+    }
+
     &:hover {
       background-color: #064663;
     }

@@ -1,10 +1,22 @@
 import React, { useState } from "react";
 import "./data-table.scss";
 
+type Datum = number | string | boolean | DataPoint;
+type DataPoint = {
+  id: number;
+  [key: string]: Datum;
+};
+
+type DataHeader = {
+  id: string;
+  title: string;
+  operation?: (value: any) => any;
+};
+
 interface DisplayTableProps {
-  data: any[];
-  columns: any[];
-  onRowClick?: (row: any) => void;
+  data: Array<DataPoint>;
+  columns: Array<DataHeader>;
+  onRowClick?: (row: DataPoint) => void;
 }
 
 export const DataTable = ({
@@ -12,36 +24,34 @@ export const DataTable = ({
   columns,
   onRowClick,
 }: DisplayTableProps): JSX.Element => {
-  const [selectedRow, setSelectedRow] = useState<any>(null);
-  const [selectedRowIndex, setSelectedRowIndex] = useState<number>(0);
+  const [selectedRowIndex, setSelectedRowIndex] = useState<number>(-1);
 
-  const handleRowClick = (row: any, index: number): void => {
-    setSelectedRow(row);
+  const handleRowClick = (row: DataPoint, index: number): void => {
     setSelectedRowIndex(index);
     if (onRowClick) {
       onRowClick(row);
     }
   };
 
-  const handleRowDoubleClick = (row: any, index: number): void => {
-    null;
+  const handleRowDoubleClick = (row: DataPoint, index: number): void => {
+    console.log("double click", row, index);
   };
 
-  const handleRowContextMenu = (row: any, index: number): void => {
-    null;
+  const handleRowContextMenu = (row: DataPoint, index: number): void => {
+    console.log("context menu", row, index);
   };
 
   return (
     <table className="o-data-table">
       <thead>
         <tr>
-          {columns.map((column: any) => (
+          {columns.map((column) => (
             <th key={column.id}>{column.title}</th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {data.map((row: any, index: number) => (
+        {data.map((row: DataPoint, index: number) => (
           <tr
             key={row.id}
             onClick={() => handleRowClick(row, index)}
@@ -51,7 +61,7 @@ export const DataTable = ({
               index === selectedRowIndex ? " o-data-table__row--selected" : ""
             }`}
           >
-            {columns.map((column: any) => {
+            {columns.map((column) => {
               let displayValue = row[column.id];
               if (column.operation) {
                 displayValue = column.operation(row[column.id]);

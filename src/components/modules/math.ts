@@ -18,3 +18,7 @@ export const round = (num: number, places: number): number => {
     );
   }
 };
+
+export const roundTwoDecimals = (value: number): number => {
+  return round(value, 2);
+};
