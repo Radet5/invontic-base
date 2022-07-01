@@ -24,11 +24,8 @@
     position: relative;
     padding: 0.5rem;
     background-color: #04293A;
-    border-radius: 0 10px 10px 0;
-
-    &-right {
-      border-radius: 10px 0 0 10px;
-    }
+    border-radius: 10px;
+    overflow: auto;
   }
 
   &__close-button {
