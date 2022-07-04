@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import { FieldInterface } from "./record/field/grid-record-field";
 import GridRecord from "./record/grid-record";
 
 interface GridProps {
@@ -25,14 +24,14 @@ const Grid = ({
 
   useEffect(() => {
     if (records.length == 0) {
-      setRecords([{ ...defaultRecord, recordId: `${entityId}-0` }]);
+      setRecords([{ ...defaultRecord, id: `${entityId}-0` }]);
     }
   }, [records, setRecords, defaultRecord, entityId]);
 
   const addRecord = () => {
     const newRecord = {
       ...defaultRecord,
-      recordId: `${entityId}-${records.length}`,
+      id: `${entityId}-${records.length}`,
     };
     setRecords([...records, newRecord]);
     focus(records.length);
@@ -71,7 +70,7 @@ const Grid = ({
         updateRecord={updateRecord(index)}
         active={activeRecord == index}
         onFocus={() => focus(index)}
-        key={`gridRecord-${record.recordId}`}
+        key={`gridRecord-${record.id}`}
         moveToNextRecord={moveToNextRecord}
         moveToPrevRecord={moveToPrevRecord}
         activeField={activeField}
@@ -83,9 +82,6 @@ const Grid = ({
 
   return (
     <div className="o-grid">
-      <div>
-        {label} {entityId}
-      </div>
       {recordElements}
       <button onClick={addRecord}>Add Record</button>
     </div>

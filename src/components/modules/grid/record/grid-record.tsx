@@ -1,7 +1,6 @@
 import React, { createRef, useEffect, useRef, useState } from "react";
 
 import GridRecordField from "./field/grid-record-field";
-import { FieldInterface } from "./field/grid-record-field";
 
 import "./grid-record.scss";
 
@@ -70,7 +69,9 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
   };
 
   const focus = (id: string) => {
-    fieldRefs.current[id].current.focus();
+    if (fieldRefs.current[id]) {
+      fieldRefs.current[id].current.focus();
+    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {

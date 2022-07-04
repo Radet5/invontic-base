@@ -5,6 +5,7 @@ import Invoice from "../invoice/invoice";
 import FileList from "../file-list/file-list";
 import { Drawer } from "../drawer/drawer";
 import { InvoiceNavigator } from "../invoice-navigator/invoice-navigator";
+import { InvoiceManager } from "../invoice-manager/invoice-manager";
 
 const vendors = [
   { id: "0", name: "Vendor A" },
@@ -17,6 +18,9 @@ const vendors = [
 
 const InvonticBase = (): JSX.Element => {
   const [selectedInvoice, setSelectedInvoice] = useState<string | null>(null);
+  const [selectedInvoiceId, setSelectedInvoiceId] = useState<number | null>(
+    null
+  );
 
   // generates a UUID for the invoice
   const generateInvoiceId = (): string => {
@@ -25,7 +29,7 @@ const InvonticBase = (): JSX.Element => {
 
   return (
     <div className="o-invonticBase">
-      <div>Welcome to Invontic</div>
+      {selectedInvoiceId ? null : <div>Invontic</div>}
       <div
         style={{
           display: "flex",
@@ -37,7 +41,7 @@ const InvonticBase = (): JSX.Element => {
         }}
       >
         <Drawer defaultOpen={false}>
-          <InvoiceNavigator />
+          <InvoiceNavigator onInvoiceSelect={setSelectedInvoiceId} />
         </Drawer>
         <div
           style={{
@@ -46,12 +50,7 @@ const InvonticBase = (): JSX.Element => {
             marginRight: "auto",
           }}
         >
-          {selectedInvoice ? (
-            <Invoice vendors={vendors} invoiceId={selectedInvoice} />
-          ) : null}
-          <button onClick={() => setSelectedInvoice(generateInvoiceId())}>
-            New Invoice
-          </button>
+          <Invoice vendors={vendors} invoiceId={selectedInvoiceId} />
         </div>
         <Drawer side="right">
           <FileList

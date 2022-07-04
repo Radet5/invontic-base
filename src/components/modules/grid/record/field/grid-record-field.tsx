@@ -2,15 +2,7 @@ import React, { LegacyRef } from "react";
 
 import "./grid-record-field.scss";
 
-export interface FieldInterface {
-  value: string | number;
-  name: string;
-  type: string;
-  id: string;
-  label: string;
-}
-
-interface ImportRecordFieldProps extends FieldInterface {
+interface GridRecordFieldProps extends FieldInterface {
   onChange: (key: string, value: string | number) => void;
   onFocus: (id: string) => void;
   active: boolean;
@@ -19,7 +11,7 @@ interface ImportRecordFieldProps extends FieldInterface {
   onKeyDown: (event: React.KeyboardEvent) => void;
 }
 
-const ImportRecordField = (props: ImportRecordFieldProps): JSX.Element => {
+const GridRecordField = (props: GridRecordFieldProps): JSX.Element => {
   const update = (key: string, event: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(key, event.target.value);
   };
@@ -61,4 +53,4 @@ const ImportRecordField = (props: ImportRecordFieldProps): JSX.Element => {
   );
 };
 
-export default ImportRecordField;
+export default GridRecordField;

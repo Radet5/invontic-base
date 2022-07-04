@@ -10,7 +10,13 @@ const jsonData =
 /* eslint-enable */
 //round(value, 2);
 
-export const InvoiceNavigator = (): JSX.Element => {
+interface InvoiceNavigatorProps {
+  onInvoiceSelect: (invoiceId: number) => void;
+}
+
+export const InvoiceNavigator = ({
+  onInvoiceSelect,
+}: InvoiceNavigatorProps): JSX.Element => {
   const columns = [
     { id: "supplier_name", title: "Supplier" },
     { id: "supplier_invoice_id", title: "Supplier Invoice ID" },
@@ -26,7 +32,11 @@ export const InvoiceNavigator = (): JSX.Element => {
 
   return (
     <div className="o-invoice-navigator">
-      <DataTable data={JSON.parse(jsonData).data} columns={columns} />
+      <DataTable
+        data={JSON.parse(jsonData).data}
+        columns={columns}
+        onRowClick={(row) => onInvoiceSelect(row.id)}
+      />
     </div>
   );
 };
