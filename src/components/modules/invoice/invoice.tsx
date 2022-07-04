@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 import Grid from "../grid/grid";
+import { Select } from "../atoms/select/select";
 import SaveButton from "../save-button/save-button";
 import FileLoader from "../file-loader/file-loader";
+import { Field } from "../atoms/field/field";
 
 /* eslint-disable */
 const jsonData: {[key: number]: any} = {
@@ -23,26 +25,6 @@ interface InvoiceRecordInterface {
   quantity: number;
   unit_price: number;
 }
-
-// react component dropdown list
-const Select = ({ selectedId, onChange, items }) => {
-  const options = items.map(item => {
-    return (
-      <option key={item.id} value={item.id}>
-        {item.name}
-      </option>
-    );
-  });
-  return (
-    <select
-      value={selectedId}
-      onChange={e => onChange(e.target.value)}
-      className="form-control"
-    >
-      {options}
-    </select>
-  );
-};
 
 const fields = [
   {
@@ -70,7 +52,6 @@ const fields = [
 
 const Invoice = (props: InvoiceProps): JSX.Element => {
   const [editTimestamp, setEditTimestamp] = useState("");
-  const [vendorId, setVendorId] = useState("0");
   const [invoice, setInvoice] = useState<any>({ id: "" });
 
   useEffect(() => {
@@ -97,30 +78,60 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
   };
 
   console.log(invoice.invoice_records);
-  // selected vendor name
-  const vendorName = props.vendors.find(
-    (vendor) => vendor.id === vendorId
-  ).name;
-  console.log(vendorName);
+
+  const headerChange = (key: string, value: string | number) => {
+    console.log(key, value);
+    setInvoice({ ...invoice, [key]: value });
+  };
 
   if (invoice.id === "") {
     return <React.Fragment />;
   } else {
     return (
       <React.Fragment>
-        <div>Invoice {invoice.supplier_invoice_id}</div>
-        <div>Date: {invoice.invoice_date}</div>
-        <div>Accounting Date: {invoice.accounting_date}</div>
-        <Select
-          items={[{ id: invoice.supplier_id, name: invoice.supplier_name }]}
-          selectedId={invoice.supplier_id}
-          onChange={setVendorId}
-        />
-        <Select
-          items={[{ id: invoice.invoice_type_id, name: invoice.invoice_type }]}
-          selectedId={invoice.invoice_type_id}
-          onChange={console.log}
-        />
+        <div>
+          <Field
+            value={invoice.supplier_invoice_id}
+            name="supplier_invoice_id"
+            type="text"
+            id="supplier_invoice_id"
+            onChange={headerChange}
+            label="Supplier Invoice Id"
+          />
+          <Field
+            value={invoice.invoice_date}
+            name="invoice_date"
+            type="date"
+            id="invoice_date"
+            onChange={headerChange}
+            label="Invoice Date"
+          />
+          <Field
+            value={invoice.accounting_date}
+            name="accounting_date"
+            type="date"
+            id="accounting_date"
+            onChange={headerChange}
+            label="Accounting Date"
+          />
+        </div>
+        <div style={{ marginBottom: "10px" }}>
+          <Select
+            items={[{ id: invoice.supplier_id, name: invoice.supplier_name }]}
+            selectedId={invoice.supplier_id}
+            onChange={(value) => headerChange("supplier_id", value)}
+          />
+          <Select
+            items={[
+              {
+                id: invoice.invoice_type_id,
+                name: invoice.invoice_type,
+              },
+            ]}
+            selectedId={invoice.invoice_type_id}
+            onChange={(value) => headerChange("invoice_type_id", value)}
+          />
+        </div>
         <Grid
           entityId={invoice.id}
           fields={fields}
