@@ -16,7 +16,8 @@ const jsonData: {[key: number]: any} = {
 
 interface InvoiceProps {
   invoiceId: number | null;
-  vendors: any;
+  suppliers: Array<{ id: number; name: string }>;
+  invoiceTypes: Array<{ id: number; name: string }>;
 }
 
 interface InvoiceRecordInterface {
@@ -117,17 +118,12 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
         </div>
         <div style={{ marginBottom: "10px" }}>
           <Select
-            items={[{ id: invoice.supplier_id, name: invoice.supplier_name }]}
+            items={props.suppliers}
             selectedId={invoice.supplier_id}
             onChange={(value) => headerChange("supplier_id", value)}
           />
           <Select
-            items={[
-              {
-                id: invoice.invoice_type_id,
-                name: invoice.invoice_type,
-              },
-            ]}
+            items={props.invoiceTypes}
             selectedId={invoice.invoice_type_id}
             onChange={(value) => headerChange("invoice_type_id", value)}
           />
