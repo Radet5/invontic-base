@@ -86,6 +86,23 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
     }
   };
 
+  const limitedKeyUp = (event: React.KeyboardEvent, id: string) => {
+    switch (event.key) {
+      case "Enter":
+        {
+          event.preventDefault();
+          const nextFieldId = getNextFieldId(fieldData, id);
+          if (isLastField(fieldData, id)) {
+            props.setActiveField(nextFieldId);
+            props.moveToNextRecord();
+          } else {
+            focus(nextFieldId);
+          }
+        }
+        break;
+    }
+  };
+
   const handleKeyUp = (event: React.KeyboardEvent, id: string) => {
     switch (event.key) {
       case "Enter":
@@ -124,7 +141,13 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
         onFocus={onFocus}
         active={props.active && field.id == props.activeField}
         fieldRef={fieldRefs.current[field.id]}
-        onKeyUp={(e) => handleKeyUp(e, field.id)}
+        onKeyUp={(e) => {
+          if (field.type != "reactSelect") {
+            handleKeyUp(e, field.id);
+          } else {
+            limitedKeyUp(e, field.id);
+          }
+        }}
         onKeyDown={handleKeyDown}
       />
     );
