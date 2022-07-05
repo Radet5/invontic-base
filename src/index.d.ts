@@ -4,4 +4,5 @@ interface FieldInterface {
   type: string;
   id: string;
   label: string;
+  width?: number;
 }

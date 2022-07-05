@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import Invoice from "../invoice/invoice";
-import FileList from "../file-list/file-list";
+//import FileList from "../file-list/file-list";
 import { Drawer } from "../drawer/drawer";
 import { InvoiceNavigator } from "../invoice-navigator/invoice-navigator";
 import { InvoiceManager } from "../invoice-manager/invoice-manager";
@@ -25,14 +25,15 @@ const InvonticBase = (): JSX.Element => {
 
   return (
     <div className="o-invonticBase">
-      {selectedInvoiceId ? null : <div>Invontic</div>}
+      <div style={{ margin: "5vh" }}>Invontic</div>
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          width: "fit-content",
-          maxHeight: "90vh",
+          width: "90vw",
+          marginTop: "5vh",
+          maxHeight: "80vh",
           overflow: "auto",
         }}
       >
@@ -52,12 +53,7 @@ const InvonticBase = (): JSX.Element => {
             invoiceId={selectedInvoiceId}
           />
         </div>
-        <Drawer side="right">
-          <FileList
-            subDirectory="invoice"
-            setSelectedFile={setSelectedInvoice}
-          />
-        </Drawer>
+        <Drawer side="right">Hi</Drawer>
       </div>
     </div>
   );

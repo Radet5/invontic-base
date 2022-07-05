@@ -1,4 +1,4 @@
-import React, { LegacyRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactSelect from "react-select";
 
 import "./grid-record-field.scss";
@@ -19,6 +19,7 @@ const GridRecordField = ({
   label,
   type,
   id,
+  width,
   options,
   onChange,
   onFocus,
@@ -31,6 +32,14 @@ const GridRecordField = ({
     value: string;
     label: string;
   } | null>(null);
+
+  const [colWidth, setColWidth] = useState("200px");
+
+  useEffect(() => {
+    if (width) {
+      setColWidth(width + "px");
+    }
+  }, [width]);
 
   useEffect(() => {
     if (value && options) {
@@ -45,6 +54,12 @@ const GridRecordField = ({
   }, [selectedOption]);
 
   const customStyles = {
+    container: (provided, state) => ({
+      ...provided,
+      position: "absolute",
+      width: "100%",
+      bottom: "0",
+    }),
     control: (provided, state) => ({
       ...provided,
       backgroundColor: "#064663",
@@ -57,6 +72,7 @@ const GridRecordField = ({
       cursor: "pointer",
       position: "relative",
       fontSize: "small",
+      minHeight: "21px",
       height: "21px",
     }),
     singleValue: (provided, state) => ({
@@ -67,6 +83,20 @@ const GridRecordField = ({
       ...provided,
       color: "white",
       margin: "0px",
+      padding: "0px",
+    }),
+    valueContainer: (provided, state) => ({
+      ...provided,
+      padding: "0px",
+    }),
+    indicatorsContainer: (provided, state) => ({
+      ...provided,
+      height: "21px",
+      display: "none",
+    }),
+    indicatorSeparator: (provided, state) => ({
+      ...provided,
+      margin: "2px",
     }),
     menu: (provided, state) => ({
       ...provided,
@@ -83,7 +113,20 @@ const GridRecordField = ({
   };
   if (type === "reactSelect") {
     return (
-      <div style={{ width: "300px" }} onKeyUp={onKeyUp} className="m-gridRecordField">
+      <div style={{ width: colWidth }} onKeyUp={onKeyUp} className="m-gridRecordField">
+        <ReactSelect
+          value={selectedOption}
+          options={options}
+          onChange={setSelectedOption}
+          ref={fieldRef}
+          styles={customStyles}
+          onFocus={(e) => {
+            e.target.select();
+            onFocus(id);
+          }}
+          menuPosition="fixed"
+          placeholder={null}
+        />
         <label
           className={
             active
@@ -96,22 +139,11 @@ const GridRecordField = ({
         >
           {label}
         </label>
-        <ReactSelect
-          value={selectedOption}
-          options={options}
-          onChange={setSelectedOption}
-          ref={fieldRef}
-          styles={customStyles}
-          onFocus={(e) => {
-            e.target.select();
-            onFocus(id);
-          }}
-        />
       </div>
     );
   } else {
     return (
-      <div className="m-gridRecordField">
+      <div style={{ width: colWidth }} className="m-gridRecordField">
         <label
           className={
             active

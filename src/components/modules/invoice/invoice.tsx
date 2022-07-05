@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import Grid from "../grid/grid";
 import { Select } from "../atoms/select/select";
-import SaveButton from "../save-button/save-button";
-import FileLoader from "../file-loader/file-loader";
+//import SaveButton from "../save-button/save-button";
+//import FileLoader from "../file-loader/file-loader";
 import { Field } from "../atoms/field/field";
 
 /* eslint-disable */
@@ -49,6 +49,7 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
             type: "number",
             id: "quantity",
             label: "Quantity",
+            width: 100,
           },
           {
             value: "",
@@ -56,6 +57,7 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
             type: "number",
             id: "unit_price",
             label: "Cost per Unit",
+            width: 100,
           },
           {
             value: "",
