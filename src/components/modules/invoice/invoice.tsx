@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
+import { roundTwoDecimals } from "../math";
 
 import Grid from "../grid/grid";
 import { Select } from "../atoms/select/select";
 //import SaveButton from "../save-button/save-button";
 //import FileLoader from "../file-loader/file-loader";
 import { Field } from "../atoms/field/field";
+import { InvoiceRecordSums } from "./record-sums/record-sums";
+import { InvoiceTotals } from "./totals/totals";
 
 /* eslint-disable */
 const jsonData: {[key: number]: any} = {
@@ -36,6 +39,13 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
   const [editTimestamp, setEditTimestamp] = useState("");
   const [invoice, setInvoice] = useState<any>({ id: "" });
   const [fields, setFields] = useState<any>([]);
+  const [goods, setGoods] = useState<any>([]);
+
+  useEffect(() => {
+    if (invoice.id !== "") {
+      setGoods(jsonGoods[invoice.supplier_id]);
+    }
+  }, [invoice]);
 
   useEffect(() => {
     if (props.invoiceId) {
@@ -65,7 +75,7 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
             type: "reactSelect",
             id: "good_id_item_code",
             label: "Item Code",
-            options: jsonGoods[invoice.supplier_id].map((good) => {
+            options: goods.map((good: any) => {
               return {
                 value: good.id,
                 label: good.item_code,
@@ -78,7 +88,7 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
             type: "reactSelect",
             id: "good_id_name",
             label: "Good Name",
-            options: jsonGoods[invoice.supplier_id].map((good) => {
+            options: goods.map((good: any) => {
               return {
                 value: good.id,
                 label: good.name,
@@ -89,7 +99,7 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
       }
       //setVendorId(invoice.supplier_id.toString());
     }
-  }, [props.invoiceId]);
+  }, [props.invoiceId, goods]);
 
   useEffect(() => {
     setEditTimestamp(new Date().toISOString());
@@ -119,52 +129,74 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
   } else {
     return (
       <React.Fragment>
-        <div>
-          <Field
-            value={invoice.supplier_invoice_id}
-            name="supplier_invoice_id"
-            type="text"
-            id="supplier_invoice_id"
-            onChange={headerChange}
-            label="Supplier Invoice Id"
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <div>
+            <div>
+              <Field
+                value={invoice.supplier_invoice_id}
+                name="supplier_invoice_id"
+                type="text"
+                id="supplier_invoice_id"
+                onChange={headerChange}
+                label="Supplier Invoice Id"
+              />
+              <Field
+                value={invoice.invoice_date}
+                name="invoice_date"
+                type="date"
+                id="invoice_date"
+                onChange={headerChange}
+                label="Invoice Date"
+              />
+              <Field
+                value={invoice.accounting_date}
+                name="accounting_date"
+                type="date"
+                id="accounting_date"
+                onChange={headerChange}
+                label="Accounting Date"
+              />
+            </div>
+            <div style={{ marginBottom: "10px", textAlign: "left" }}>
+              <Select
+                items={props.suppliers}
+                selectedId={invoice.supplier_id}
+                onChange={(value) => headerChange("supplier_id", value)}
+              />
+              <Select
+                items={props.invoiceTypes}
+                selectedId={invoice.invoice_type_id}
+                onChange={(value) => headerChange("invoice_type_id", value)}
+              />
+            </div>
+          </div>
+          <div style={{ width: "fit-content", marginLeft: "auto" }}>
+            <InvoiceTotals
+              records={invoice.invoice_records || []}
+              goods={goods}
+            />
+          </div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Grid
+            entityId={invoice.id}
+            fields={fields}
+            records={invoice.invoice_records || []}
+            setRecords={setInvoiceRecords}
+            defaultRecord={defaultInvoiceRecord}
+            label="Invoice"
           />
-          <Field
-            value={invoice.invoice_date}
-            name="invoice_date"
-            type="date"
-            id="invoice_date"
-            onChange={headerChange}
-            label="Invoice Date"
-          />
-          <Field
-            value={invoice.accounting_date}
-            name="accounting_date"
-            type="date"
-            id="accounting_date"
-            onChange={headerChange}
-            label="Accounting Date"
+          <InvoiceRecordSums
+            records={invoice.invoice_records || []}
+            goods={goods}
           />
         </div>
-        <div style={{ marginBottom: "10px" }}>
-          <Select
-            items={props.suppliers}
-            selectedId={invoice.supplier_id}
-            onChange={(value) => headerChange("supplier_id", value)}
-          />
-          <Select
-            items={props.invoiceTypes}
-            selectedId={invoice.invoice_type_id}
-            onChange={(value) => headerChange("invoice_type_id", value)}
-          />
-        </div>
-        <Grid
-          entityId={invoice.id}
-          fields={fields}
-          records={invoice.invoice_records || []}
-          setRecords={setInvoiceRecords}
-          defaultRecord={defaultInvoiceRecord}
-          label="Invoice"
-        />
       </React.Fragment>
     );
   }

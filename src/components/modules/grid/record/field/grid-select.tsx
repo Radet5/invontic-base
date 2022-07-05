@@ -76,6 +76,7 @@ export const GridSelect = ({
     valueContainer: (provided: any) => ({
       ...provided,
       padding: "0px",
+      textAlign: "left",
     }),
     indicatorsContainer: (provided: any) => ({
       ...provided,
