@@ -1,7 +1,7 @@
 {
   "name": "invontic-base",
   "productName": "invontic",
-  "version": "1.1.0",
+  "version": "0.2.0",
   "description": "Inventory Management",
   "main": ".webpack/main",
   "scripts": {
