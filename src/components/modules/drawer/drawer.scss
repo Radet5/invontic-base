@@ -4,7 +4,7 @@
   padding: 0.5rem 0.5rem 0.5rem 0;
   position:absolute;
   align-items: stretch;
-  top:0;
+  top: 32px;
   left:0;
   bottom:0;
   transform: translateX(-100%);
@@ -40,15 +40,17 @@
     cursor: pointer;
     border-radius: 0 10px 10px 0;
     position: absolute;
+    top: 32px;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 100%;
+    height: calc(100% - 32px);
     background-color: #064663;
     color: white;
     font-size: larger;
     border: none;
     z-index: 99;
+    width:fit-content;
 
     &-right {
       left: unset;
