@@ -117,10 +117,10 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
     invoice_id: invoice.id,
   };
 
-  console.log(invoice.invoice_records);
+  //console.log(invoice.invoice_records);
 
   const headerChange = (key: string, value: string | number) => {
-    console.log(key, value);
+    //console.log(key, value);
     setInvoice({ ...invoice, [key]: value });
   };
 
@@ -129,6 +129,9 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
   } else {
     return (
       <React.Fragment>
+        <div style={{ marginBottom: "2.5vh", fontSize: "32px" }}>
+          {invoice.supplier_name} {invoice.supplier_invoice_id}
+        </div>
         <div
           style={{
             display: "flex",

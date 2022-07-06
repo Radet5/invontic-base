@@ -1,4 +1,5 @@
 import React from "react";
+import { FieldInterface } from "../../types/field-interface";
 
 import "./field.scss";
 

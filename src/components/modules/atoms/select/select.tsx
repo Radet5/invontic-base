@@ -8,7 +8,11 @@ interface SelectProps {
   items: Array<{ id: number; name: string }>;
 }
 
-export const Select = ({ selectedId, onChange, items }: SelectProps): JSX.Element => {
+export const Select = ({
+  selectedId,
+  onChange,
+  items,
+}: SelectProps): JSX.Element => {
   const options = items.map((item) => {
     return (
       <option key={item.id} value={item.id}>

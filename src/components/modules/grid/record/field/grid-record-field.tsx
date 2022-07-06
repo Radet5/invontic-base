@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { FieldInterface } from "../../../types/field-interface";
 
 import "./grid-record-field.scss";
 import { GridSelect } from "./grid-select";
@@ -28,7 +29,7 @@ const GridRecordField = ({
   onKeyUp,
   onKeyDown,
 }: GridRecordFieldProps): JSX.Element => {
-  const [colWidth, setColWidth] = useState("200px");
+  const [colWidth, setColWidth] = useState(width ? width : 200 + "px");
 
   useEffect(() => {
     if (width) {

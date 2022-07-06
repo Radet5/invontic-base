@@ -68,7 +68,7 @@ export const DataTable = ({
               }
               return (
                 <td className="o-data-table__cell" key={column.id}>
-                  {displayValue}
+                  {displayValue.toString()}
                 </td>
               );
             })}

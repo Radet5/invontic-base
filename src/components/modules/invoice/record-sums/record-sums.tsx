@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { roundTwoDecimals } from "../../math";
 
 interface InvoiceRecordSumsProps {
@@ -27,27 +27,36 @@ export const InvoiceRecordSums = ({
     padding: "0px 4px",
     border: "2px solid #04293A",
     backgroundColor: "#ECB365",
+    minWidth: "68px",
+  };
+
+  const rowStyles = {
+    height: "21px",
+    display: "flex",
   };
 
   const tableStyles = {
     color: "#04293A",
     fontWeight: 700,
     fontSize: "13px",
-    borderSpacing: "0 21px",
+    display: "flex",
+    flexDirection: "column" as const,
+    gap: "21px",
+    marginTop: "21px",
   };
 
   return (
-    <table style={tableStyles}>
-      <tbody>
-        {sums.map((sum) => {
-          return (
-            <tr key={sum.id + "sums"}>
-              <td style={cellStyles}>${sum.extPrice}</td>
-              <td style={cellStyles}>${sum.tax}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <div style={tableStyles}>
+      {sums.map((sum) => {
+        return (
+          <Fragment key={sum.id + "sums"}>
+            <div style={rowStyles}>
+              <div style={cellStyles}>${sum.extPrice}</div>
+              <div style={cellStyles}>${sum.tax}</div>
+            </div>
+          </Fragment>
+        );
+      })}
+    </div>
   );
 };

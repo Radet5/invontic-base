@@ -1,4 +1,4 @@
-interface FieldInterface {
+export interface FieldInterface {
   value: string | number;
   name: string;
   type: string;
