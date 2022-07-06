@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import ReactSelect from "react-select";
 
-interface GridSelectProps {
+interface StyledReactSelectProps {
   id: string;
   value: string | number;
   name: string;
   onChange: (key: string, value: string | number) => void;
-  onFocus: (id: string) => void;
+  onFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
   fieldRef: any;
   options: any;
 }
 
-export const GridSelect = ({
+export const StyledReactSelect = ({
   id,
   name,
   value,
@@ -19,11 +19,18 @@ export const GridSelect = ({
   onFocus,
   fieldRef,
   options,
-}: GridSelectProps): JSX.Element => {
+}: StyledReactSelectProps): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState<{
     value: string;
     label: string;
   } | null>(null);
+
+  const selectOption = (option: { value: string; label: string }) => {
+    setSelectedOption(option);
+    if (option) {
+      onChange(name, option.value);
+    }
+  };
 
   useEffect(() => {
     if (value && options) {
@@ -35,16 +42,9 @@ export const GridSelect = ({
     }
   }, [value, options]);
 
-  useEffect(() => {
-    if (selectedOption) {
-      onChange(name, selectedOption.value);
-    }
-  }, [selectedOption, name]);
-
   const customStyles = {
     container: (provided: any) => ({
       ...provided,
-      position: "absolute",
       width: "100%",
       bottom: "0",
     }),
@@ -105,13 +105,10 @@ export const GridSelect = ({
     <ReactSelect
       value={selectedOption}
       options={options}
-      onChange={setSelectedOption}
+      onChange={selectOption}
       ref={fieldRef}
       styles={customStyles}
-      onFocus={(e) => {
-        e.target.select();
-        onFocus(id);
-      }}
+      onFocus={onFocus}
       menuPosition="fixed"
       placeholder={null}
     />

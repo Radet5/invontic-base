@@ -9,6 +9,7 @@ import { Field } from "../atoms/field/field";
 import { InvoiceRecordSums } from "./record-sums/record-sums";
 import { InvoiceTotals } from "./totals/totals";
 import { InvoiceAggregates } from "./aggregates/aggregates";
+import { FieldRow } from "../atoms/field-row/field-row";
 
 /* eslint-disable */
 const jsonData: {[key: number]: any} = {
@@ -43,6 +44,12 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
   const [goods, setGoods] = useState<any>([]);
 
   useEffect(() => {
+    if (props.invoiceId) {
+      setInvoice(jsonData[props.invoiceId].data);
+    }
+  }, [props.invoiceId]);
+
+  useEffect(() => {
     if (invoice.id !== "") {
       setGoods(jsonGoods[invoice.supplier_id]);
     }
@@ -50,8 +57,6 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
 
   useEffect(() => {
     if (props.invoiceId) {
-      const invoice = jsonData[props.invoiceId].data;
-      setInvoice(invoice);
       if (invoice) {
         setFields([
           {
@@ -100,7 +105,7 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
       }
       //setVendorId(invoice.supplier_id.toString());
     }
-  }, [props.invoiceId, goods]);
+  }, [props.invoiceId, goods, invoice]);
 
   useEffect(() => {
     setEditTimestamp(new Date().toISOString());
@@ -121,9 +126,14 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
   //console.log(invoice.invoice_records);
 
   const headerChange = (key: string, value: string | number) => {
-    //console.log(key, value);
+    console.log(key, value);
     setInvoice({ ...invoice, [key]: value });
   };
+
+  const supplierName = props.suppliers.find(
+    (supplier: { id: number; name: string }) =>
+      supplier.id === invoice.supplier_id
+  )?.name;
 
   if (invoice.id === "") {
     return <React.Fragment />;
@@ -131,7 +141,7 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
     return (
       <React.Fragment>
         <div style={{ marginBottom: "2.5vh", fontSize: "32px" }}>
-          {invoice.supplier_name} {invoice.supplier_invoice_id}
+          {`${supplierName} ${invoice.supplier_invoice_id}`}
         </div>
         <div
           style={{
@@ -141,7 +151,7 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
           }}
         >
           <div>
-            <div>
+            <FieldRow>
               <Field
                 value={invoice.supplier_invoice_id}
                 name="supplier_invoice_id"
@@ -166,19 +176,30 @@ const Invoice = (props: InvoiceProps): JSX.Element => {
                 onChange={headerChange}
                 label="Accounting Date"
               />
-            </div>
-            <div style={{ marginBottom: "10px", textAlign: "left" }}>
-              <Select
-                items={props.suppliers}
-                selectedId={invoice.supplier_id}
-                onChange={(value) => headerChange("supplier_id", value)}
+            </FieldRow>
+            <FieldRow>
+              <Field
+                name="supplier_id"
+                type="reactSelect"
+                id="supplier_id_name"
+                label="Supplier"
+                value={invoice.supplier_id}
+                onChange={headerChange}
+                options={props.suppliers.map((supplier: any) => {
+                  return {
+                    value: supplier.id,
+                    label: supplier.name,
+                  };
+                })}
               />
-              <Select
-                items={props.invoiceTypes}
-                selectedId={invoice.invoice_type_id}
-                onChange={(value) => headerChange("invoice_type_id", value)}
-              />
-            </div>
+              <div style={{ display: "flex", alignItems: "end" }}>
+                <Select
+                  items={props.invoiceTypes}
+                  selectedId={invoice.invoice_type_id}
+                  onChange={(value) => headerChange("invoice_type_id", value)}
+                />
+              </div>
+            </FieldRow>
           </div>
           <div
             style={{

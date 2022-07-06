@@ -1,40 +1,79 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FieldInterface } from "../../types/field-interface";
+import { StyledReactSelect } from "../styled-react-select/styled-react-select";
 
 import "./field.scss";
 
-interface FieldProps extends FieldInterface {
-  onChange: (key: string, value: string | number) => void;
-  active?: boolean;
-}
+export const Field = ({
+  value,
+  name,
+  label,
+  type,
+  id,
+  width,
+  options,
+  onChange,
+  onFocus,
+  active,
+  fieldRef,
+  onKeyUp,
+  onKeyDown,
+}: FieldInterface): JSX.Element => {
+  const [colWidth, setColWidth] = useState(width ? width : 200 + "px");
 
-export const Field = (props: FieldProps): JSX.Element => {
-  const update = (key: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    props.onChange(key, event.target.value);
-  };
+  useEffect(() => {
+    if (width) {
+      setColWidth(width + "px");
+    }
+  }, [width]);
 
-  return (
-    <div className="a-field">
-      <label
-        className={
-          props.active
-            ? "a-field__label -active"
-            : props.value
-            ? "a-field__label -valid"
-            : "a-field__label"
-        }
-        htmlFor={props.id}
-      >
-        {props.label}
-      </label>
-      <input
-        className={props.active ? "a-field__input -active" : "a-field__input"}
-        type={props.type}
-        name={props.name}
-        value={props.value}
-        id={props.id}
-        onChange={(e) => update(props.name, e)}
-      />
-    </div>
+  const labelElm = (
+    <label
+      className={
+        active
+          ? "a-field__label -active"
+          : value
+          ? "a-field__label -valid"
+          : "a-field__label"
+      }
+      htmlFor={id}
+    >
+      {label}
+    </label>
   );
+
+  if (type === "reactSelect") {
+    return (
+      <div style={{ width: colWidth }} onKeyUp={onKeyUp} className="a-field">
+        <StyledReactSelect
+          value={value}
+          name={name}
+          id={id}
+          onChange={onChange}
+          onFocus={onFocus}
+          fieldRef={fieldRef}
+          options={options}
+        />
+        {labelElm}
+      </div>
+    );
+  } else {
+    return (
+      <div style={{ width: colWidth }} className="a-field">
+        {labelElm}
+        <input
+          className={active ? "a-field__input -active" : "a-field__input"}
+          type={type}
+          name={name}
+          value={value}
+          id={id}
+          ref={fieldRef}
+          onChange={(e) => onChange(name, e.target.value)}
+          onFocus={onFocus}
+          onKeyUp={onKeyUp}
+          onKeyDown={onKeyDown}
+        />
+      </div>
+    );
+  }
 };

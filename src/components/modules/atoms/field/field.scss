@@ -1,7 +1,8 @@
 .a-field {
 
-  display: inline-block;
+  display: flex;
   position: relative;
+  align-items: flex-end;
 
   // float label below input when focussed, otherwise show label as a placeholder
   &__label {
@@ -26,6 +27,8 @@
     background-color: #064663;
     border-color: #04293A;
     border-style: solid;
+    height: 15px;
+    width: 100%;
     &.-active{
     }
   }

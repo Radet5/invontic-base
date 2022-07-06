@@ -1,9 +1,7 @@
 import React, { createRef, useEffect, useRef, useState } from "react";
 import { FieldInterface } from "../../types/field-interface";
-
-import GridRecordField from "./field/grid-record-field";
-
-import "./grid-record.scss";
+import { Field } from "../../atoms/field/field";
+import { FieldRow } from "../../atoms/field-row/field-row";
 
 interface GridRecordProps {
   record: any;
@@ -64,8 +62,9 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
     props.active ? focus(props.activeField) : null;
   }, [props.active, props.activeField]);
 
-  const onFocus = (id: string) => {
-    props.setActiveField(id);
+  const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.select();
+    props.setActiveField(e.target.id);
     props.onFocus();
   };
 
@@ -135,7 +134,7 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
 
   const fieldElements = fieldData.map((field) => {
     return (
-      <GridRecordField
+      <Field
         key={`field-${field.id}`}
         {...field}
         onChange={props.updateRecord}
@@ -154,9 +153,7 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
     );
   });
 
-  const recordClass = props.active ? "m-gridRecord -active" : "m-gridRecord";
-
-  return <div className={recordClass}>{fieldElements}</div>;
+  return <FieldRow>{fieldElements}</FieldRow>;
 };
 
 export default GridRecord;
