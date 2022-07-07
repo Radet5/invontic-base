@@ -52,7 +52,7 @@ const Grid = ({
 
   const updateRecord = (index: number) => {
     return function (key: string, value: string | number) {
-      const newRecords = [...records];
+      const newRecords = structuredClone(records);
       newRecords[index] = { ...records[index], [key]: value };
       setRecords(newRecords);
     };
@@ -78,7 +78,7 @@ const Grid = ({
   return (
     <div className="o-grid">
       {recordElements}
-      <button onClick={addRecord}>Add Record</button>
+      <button onClick={addRecord}>+</button>
     </div>
   );
 };

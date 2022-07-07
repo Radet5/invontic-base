@@ -47,7 +47,7 @@ const InvonticBase = (): JSX.Element => {
   };
 
   const updateInvoice = (key: string, value: any) => {
-    setInvoice({ ...invoice, [key]: value });
+    setInvoice({ ...structuredClone(invoice), [key]: value });
     if (key === "supplier_id") {
       setGoods(jsonGoods[value]);
     }
@@ -61,7 +61,7 @@ const InvonticBase = (): JSX.Element => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          width: "90vw",
+          width: "calc(90vw - 20px)",
           marginTop: "calc(5vh + 32px)",
           maxHeight: "80vh",
           overflow: "auto",

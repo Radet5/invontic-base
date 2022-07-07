@@ -32,53 +32,51 @@ const Invoice = ({
   const [fields, setFields] = useState<any>([]);
 
   useEffect(() => {
-    if (invoice && invoice.id !== "") {
-      setFields([
-        {
-          value: "",
-          name: "quantity",
-          type: "number",
-          id: "quantity",
-          label: "Quantity",
-          width: 100,
-        },
-        {
-          value: "",
-          name: "unit_price",
-          type: "number",
-          id: "unit_price",
-          label: "Cost per Unit",
-          width: 100,
-        },
-        {
-          value: "",
-          name: "good_id",
-          type: "reactSelect",
-          id: "good_id_item_code",
-          label: "Item Code",
-          options: goods.map((good: any) => {
-            return {
-              value: good.id,
-              label: good.item_code,
-            };
-          }),
-        },
-        {
-          value: "",
-          name: "good_id",
-          type: "reactSelect",
-          id: "good_id_name",
-          label: "Good Name",
-          options: goods.map((good: any) => {
-            return {
-              value: good.id,
-              label: good.name,
-            };
-          }),
-        },
-      ]);
-    }
-  }, [goods, invoice]);
+    setFields([
+      {
+        value: "",
+        name: "quantity",
+        type: "number",
+        id: "quantity",
+        label: "Quantity",
+        width: 100,
+      },
+      {
+        value: "",
+        name: "unit_price",
+        type: "number",
+        id: "unit_price",
+        label: "Cost per Unit",
+        width: 100,
+      },
+      {
+        value: "",
+        name: "good_id",
+        type: "reactSelect",
+        id: "good_id_item_code",
+        label: "Item Code",
+        options: goods.map((good: any) => {
+          return {
+            value: good.id,
+            label: good.item_code,
+          };
+        }),
+      },
+      {
+        value: "",
+        name: "good_id",
+        type: "reactSelect",
+        id: "good_id_name",
+        label: "Good Name",
+        options: goods.map((good: any) => {
+          return {
+            value: good.id,
+            label: good.name,
+          };
+        }),
+      },
+    ]);
+  }, [goods]);
 
   const setInvoiceRecords = (invoiceRecords: InvoiceRecordInterface[]) => {
     updateInvoice("invoice_records", invoiceRecords);
