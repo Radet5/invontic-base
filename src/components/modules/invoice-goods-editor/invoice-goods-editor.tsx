@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
+import { Select } from "../atoms/select/select";
 import Grid from "../grid/grid";
+import { SortSelect } from "../molecules/sort-select/sort-select";
 
 interface InvoiceGoodsEditorProps {
   goods: Array<any>;
@@ -52,14 +54,24 @@ export const InvoiceGoodsEditor = ({
     tax_rate: 0,
   };
 
+  const sortOptions = fields.map((field: any) => {
+    return {
+      id: field.name,
+      name: field.label,
+    };
+  });
+
   return (
-    <Grid
-      entityId="goods"
-      fields={fields}
-      records={goods}
-      setRecords={setGoods}
-      defaultRecord={defaultGood}
-      label="Goods"
-    />
+    <Fragment>
+      <SortSelect items={goods} setItems={setGoods} sortOptions={sortOptions} />
+      <Grid
+        entityId="goods"
+        fields={fields}
+        records={goods}
+        setRecords={setGoods}
+        defaultRecord={defaultGood}
+        label="Goods"
+      />
+    </Fragment>
   );
 };
