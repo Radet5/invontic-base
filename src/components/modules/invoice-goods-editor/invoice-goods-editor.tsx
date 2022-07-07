@@ -6,11 +6,13 @@ import { SortSelect } from "../molecules/sort-select/sort-select";
 interface InvoiceGoodsEditorProps {
   goods: Array<any>;
   setGoods: (goods: Array<any>) => void;
+  departments: Array<{ department: string }>;
 }
 
 export const InvoiceGoodsEditor = ({
   goods,
   setGoods,
+  departments
 }: InvoiceGoodsEditorProps): JSX.Element => {
   const [fields, setFields] = useState<any>([]);
 
@@ -33,9 +35,15 @@ export const InvoiceGoodsEditor = ({
       {
         value: "",
         name: "department",
-        type: "text",
+        type: "createSelect",
         id: "department",
         label: "Department",
+        options: departments.map((department: any) => {
+          return {
+            value: department.department,
+            label: department.department,
+          };
+        }),
       },
       {
         value: "",

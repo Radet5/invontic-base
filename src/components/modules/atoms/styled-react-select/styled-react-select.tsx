@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactSelect from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 interface StyledReactSelectProps {
   id: string;
@@ -9,6 +10,7 @@ interface StyledReactSelectProps {
   onFocus: (e: React.FocusEvent<HTMLInputElement>) => void;
   fieldRef: any;
   options: any;
+  createable?: boolean;
 }
 
 export const StyledReactSelect = ({
@@ -19,6 +21,7 @@ export const StyledReactSelect = ({
   onFocus,
   fieldRef,
   options,
+  createable,
 }: StyledReactSelectProps): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState<{
     value: string;
@@ -101,16 +104,31 @@ export const StyledReactSelect = ({
     }),
   };
 
-  return (
-    <ReactSelect
-      value={selectedOption}
-      options={options}
-      onChange={selectOption}
-      ref={fieldRef}
-      styles={customStyles}
-      onFocus={onFocus}
-      menuPosition="fixed"
-      placeholder={null}
-    />
-  );
+  if (!createable) {
+    return (
+      <ReactSelect
+        value={selectedOption}
+        options={options}
+        onChange={selectOption}
+        ref={fieldRef}
+        styles={customStyles}
+        onFocus={onFocus}
+        menuPosition="fixed"
+        placeholder={null}
+      />
+    );
+  } else {
+    return (
+      <CreatableSelect
+        value={selectedOption}
+        options={options}
+        onChange={selectOption}
+        ref={fieldRef}
+        styles={customStyles}
+        onFocus={onFocus}
+        menuPosition="fixed"
+        placeholder={null}
+      />
+    );
+  }
 };
