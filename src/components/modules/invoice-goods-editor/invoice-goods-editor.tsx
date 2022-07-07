@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Select } from "../atoms/select/select";
 import Grid from "../grid/grid";
+import { Filter } from "../molecules/filter/filter";
 import { SortSelect } from "../molecules/sort-select/sort-select";
 
 interface InvoiceGoodsEditorProps {
@@ -12,9 +13,10 @@ interface InvoiceGoodsEditorProps {
 export const InvoiceGoodsEditor = ({
   goods,
   setGoods,
-  departments
+  departments,
 }: InvoiceGoodsEditorProps): JSX.Element => {
   const [fields, setFields] = useState<any>([]);
+  const [filterResults, setFilterResults] = useState<any>([]);
 
   useEffect(() => {
     setFields([
@@ -53,7 +55,7 @@ export const InvoiceGoodsEditor = ({
         label: "Tax Rate",
       },
     ]);
-  }, []);
+  }, [departments]);
 
   const defaultGood = {
     name: "",
@@ -69,8 +71,16 @@ export const InvoiceGoodsEditor = ({
     };
   });
 
+  const filterOptions = [{ id: "department", name: "Department" }];
+
   return (
     <Fragment>
+      <Filter
+        items={goods}
+        setItems={setGoods}
+        setResults={setFilterResults}
+        filterOptions={filterOptions}
+      />
       <SortSelect items={goods} setItems={setGoods} sortOptions={sortOptions} />
       <Grid
         entityId="goods"
@@ -79,6 +89,7 @@ export const InvoiceGoodsEditor = ({
         setRecords={setGoods}
         defaultRecord={defaultGood}
         label="Goods"
+        filterIds={filterResults}
       />
     </Fragment>
   );

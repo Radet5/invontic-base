@@ -13,6 +13,7 @@ interface GridRecordProps {
   activeField: string;
   setActiveField: (id: string) => void;
   fields: Array<FieldInterface>;
+  hide?: boolean;
 }
 
 const injectValues = (
@@ -153,7 +154,7 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
     );
   });
 
-  return <FieldRow>{fieldElements}</FieldRow>;
+  return <FieldRow hide={props.hide}>{fieldElements}</FieldRow>;
 };
 
 export default GridRecord;

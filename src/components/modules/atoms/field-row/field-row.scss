@@ -5,6 +5,10 @@
   margin: 5px 0;
   padding: 2px;
   border: 1px solid;
+  
+  &.-hide {
+    display: none;
+  }
 }
 
 @media (min-width: 426px) {

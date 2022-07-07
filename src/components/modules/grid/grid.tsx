@@ -10,6 +10,7 @@ interface GridProps {
   defaultRecord: any;
   label: string;
   setRecords: (records: any) => void;
+  filterIds?: Array<string | number>;
 }
 
 const Grid = ({
@@ -19,6 +20,7 @@ const Grid = ({
   defaultRecord,
   label,
   setRecords,
+  filterIds,
 }: GridProps): JSX.Element => {
   const [activeField, setActiveField] = useState("itemId");
   const [activeRecord, setActiveRecord] = useState(-1);
@@ -71,6 +73,9 @@ const Grid = ({
         activeField={activeField}
         setActiveField={setActiveField}
         fields={fields}
+        hide={
+          filterIds && filterIds.length > 0 && !filterIds.includes(record.id)
+        }
       />
     );
   });
