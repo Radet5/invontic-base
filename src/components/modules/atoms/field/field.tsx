@@ -72,6 +72,7 @@ export const Field = ({
           onFocus={onFocus}
           onKeyUp={onKeyUp}
           onKeyDown={onKeyDown}
+          required={type == "date"}
         />
       </div>
     );

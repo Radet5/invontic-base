@@ -104,108 +104,104 @@ const Invoice = ({
       supplier.id === invoice.supplier_id
   )?.name;
 
-  if (invoice.id === "") {
-    return <React.Fragment />;
-  } else {
-    return (
-      <React.Fragment>
-        <div style={{ marginBottom: "2.5vh", fontSize: "32px" }}>
-          {`${supplierName} ${invoice.supplier_invoice_id}`}
+  return (
+    <React.Fragment>
+      <div style={{ marginBottom: "2.5vh", fontSize: "32px" }}>
+        {`${supplierName || "Supplier"} ${invoice.supplier_invoice_id}`}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <div>
+          <FieldRow>
+            <Field
+              value={invoice.supplier_invoice_id}
+              name="supplier_invoice_id"
+              type="text"
+              id="supplier_invoice_id"
+              onChange={headerChange}
+              label="Supplier Invoice Id"
+            />
+            <Field
+              value={invoice.invoice_date}
+              name="invoice_date"
+              type="date"
+              id="invoice_date"
+              onChange={headerChange}
+              label="Invoice Date"
+            />
+            <Field
+              value={invoice.accounting_date}
+              name="accounting_date"
+              type="date"
+              id="accounting_date"
+              onChange={headerChange}
+              label="Accounting Date"
+            />
+          </FieldRow>
+          <FieldRow>
+            <Field
+              name="supplier_id"
+              type="reactSelect"
+              id="supplier_id_name"
+              label="Supplier"
+              value={invoice.supplier_id}
+              onChange={headerChange}
+              options={suppliers.map((supplier: any) => {
+                return {
+                  value: supplier.id,
+                  label: supplier.name,
+                };
+              })}
+            />
+            <div style={{ display: "flex", alignItems: "end" }}>
+              <Select
+                items={invoiceTypes}
+                selectedId={invoice.invoice_type_id}
+                onChange={(value) => headerChange("invoice_type_id", value)}
+              />
+            </div>
+          </FieldRow>
         </div>
         <div
           style={{
+            width: "fit-content",
+            marginLeft: "auto",
             display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
+            flexDirection: "column",
+            gap: "10px",
           }}
         >
-          <div>
-            <FieldRow>
-              <Field
-                value={invoice.supplier_invoice_id}
-                name="supplier_invoice_id"
-                type="text"
-                id="supplier_invoice_id"
-                onChange={headerChange}
-                label="Supplier Invoice Id"
-              />
-              <Field
-                value={invoice.invoice_date}
-                name="invoice_date"
-                type="date"
-                id="invoice_date"
-                onChange={headerChange}
-                label="Invoice Date"
-              />
-              <Field
-                value={invoice.accounting_date}
-                name="accounting_date"
-                type="date"
-                id="accounting_date"
-                onChange={headerChange}
-                label="Accounting Date"
-              />
-            </FieldRow>
-            <FieldRow>
-              <Field
-                name="supplier_id"
-                type="reactSelect"
-                id="supplier_id_name"
-                label="Supplier"
-                value={invoice.supplier_id}
-                onChange={headerChange}
-                options={suppliers.map((supplier: any) => {
-                  return {
-                    value: supplier.id,
-                    label: supplier.name,
-                  };
-                })}
-              />
-              <div style={{ display: "flex", alignItems: "end" }}>
-                <Select
-                  items={invoiceTypes}
-                  selectedId={invoice.invoice_type_id}
-                  onChange={(value) => headerChange("invoice_type_id", value)}
-                />
-              </div>
-            </FieldRow>
-          </div>
-          <div
-            style={{
-              width: "fit-content",
-              marginLeft: "auto",
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
-            }}
-          >
-            <InvoiceTotals
-              records={invoice.invoice_records || []}
-              goods={goods}
-            />
-            <InvoiceAggregates
-              records={invoice.invoice_records || []}
-              goods={goods}
-            />
-          </div>
-        </div>
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <Grid
-            entityId={invoice.id}
-            fields={fields}
+          <InvoiceTotals
             records={invoice.invoice_records || []}
-            setRecords={setInvoiceRecords}
-            defaultRecord={defaultInvoiceRecord}
-            label="Invoice"
+            goods={goods}
           />
-          <InvoiceRecordSums
+          <InvoiceAggregates
             records={invoice.invoice_records || []}
             goods={goods}
           />
         </div>
-      </React.Fragment>
-    );
-  }
+      </div>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <Grid
+          entityId={invoice.id}
+          fields={fields}
+          records={invoice.invoice_records || []}
+          setRecords={setInvoiceRecords}
+          defaultRecord={defaultInvoiceRecord}
+          label="Invoice"
+        />
+        <InvoiceRecordSums
+          records={invoice.invoice_records || []}
+          goods={goods}
+        />
+      </div>
+    </React.Fragment>
+  );
 };
 
 export default Invoice;

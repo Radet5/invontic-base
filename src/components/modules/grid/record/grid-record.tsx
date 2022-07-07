@@ -119,7 +119,6 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
         break;
       case "ArrowDown":
         {
-          console.log(event.key);
           event.preventDefault();
           props.moveToNextRecord();
         }

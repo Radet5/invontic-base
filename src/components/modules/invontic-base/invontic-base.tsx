@@ -5,9 +5,21 @@ import Invoice from "../invoice/invoice";
 //import FileList from "../file-list/file-list";
 import { Drawer } from "../drawer/drawer";
 import { InvoiceNavigator } from "../invoice-navigator/invoice-navigator";
-import { InvoiceManager } from "../invoice-manager/invoice-manager";
 import { TitleBar } from "../title-bar/title-bar";
 import { InvoiceGoodsEditor } from "../invoice-goods-editor/invoice-goods-editor";
+
+const blankInvoice = {
+  id: uuidv4(),
+  supplier_id: 0,
+  supplier_name: "",
+  supplier_invoice_id: "",
+  invoice_date: "",
+  invoice_type_id: 0,
+  invoice_type: "",
+  invoice_total: 0,
+  accounting_date: "",
+  invoice_records: [] as any,
+};
 
 /* eslint-disable */
 const jsonData: {[key: number]: any} = {
@@ -25,7 +37,7 @@ const jsonGoods: {[key: number]: any} = {
 /* eslint-enable */
 
 const InvonticBase = (): JSX.Element => {
-  const [invoice, setInvoice] = useState<any>({ id: "" });
+  const [invoice, setInvoice] = useState<any>(blankInvoice);
   const [goods, setGoods] = useState([]);
 
   const selectInvoice = (invoiceId: number) => {

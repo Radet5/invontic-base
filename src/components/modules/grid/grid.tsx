@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FieldInterface } from "../types/field-interface";
-
 import GridRecord from "./record/grid-record";
+import "./grid.scss";
 
 interface GridProps {
   entityId: string;
@@ -23,12 +23,6 @@ const Grid = ({
   const [activeField, setActiveField] = useState("itemId");
   const [activeRecord, setActiveRecord] = useState(-1);
 
-  useEffect(() => {
-    if (records.length == 0) {
-      setRecords([{ ...defaultRecord, id: `${entityId}-0` }]);
-    }
-  }, [records, setRecords, defaultRecord, entityId]);
-
   const addRecord = () => {
     const newRecord = {
       ...defaultRecord,
@@ -45,7 +39,6 @@ const Grid = ({
   };
 
   const moveToNextRecord = () => {
-    console.log("next", activeRecord, records.length);
     if (activeRecord > -1 && activeRecord < records.length - 1) {
       focus(activeRecord + 1);
     } else if (activeRecord == records.length - 1) {
@@ -54,8 +47,6 @@ const Grid = ({
   };
 
   const focus = (id: number) => {
-    console.log("focus row", id);
-    console.log("focus field", activeField);
     setActiveRecord(id);
   };
 
