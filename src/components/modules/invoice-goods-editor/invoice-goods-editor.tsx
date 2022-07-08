@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Select } from "../atoms/select/select";
 import Grid from "../grid/grid";
 import { Filter } from "../molecules/filter/filter";
+import { Search } from "../molecules/search/search";
 import { SortSelect } from "../molecules/sort-select/sort-select";
 
 interface InvoiceGoodsEditorProps {
@@ -17,6 +18,7 @@ export const InvoiceGoodsEditor = ({
 }: InvoiceGoodsEditorProps): JSX.Element => {
   const [fields, setFields] = useState<any>([]);
   const [filterResults, setFilterResults] = useState<any>([]);
+  const [searchResults, setSearchResults] = useState<any>([]);
 
   useEffect(() => {
     setFields([
@@ -71,17 +73,42 @@ export const InvoiceGoodsEditor = ({
     };
   });
 
+  sortOptions.push({ id: "fuseScore", name: "Search Relavance" });
+
   const filterOptions = [{ id: "department", name: "Department" }];
+
+  let filterIds;
+  if (filterResults.length > 0 && searchResults.length > 0) {
+    filterIds = searchResults.filter((searchResult: any) => {
+      return filterResults.includes(searchResult);
+    });
+  } else if (filterResults.length > 0) {
+    filterIds = filterResults;
+  } else if (searchResults.length > 0) {
+    filterIds = searchResults;
+  } else {
+    filterIds = [];
+  }
 
   return (
     <Fragment>
-      <Filter
+      <Search
         items={goods}
         setItems={setGoods}
+        keys={["name", "item_code"]}
+        setResults={setSearchResults}
+      />
+      <Filter
+        items={goods}
         setResults={setFilterResults}
         filterOptions={filterOptions}
       />
-      <SortSelect items={goods} setItems={setGoods} sortOptions={sortOptions} />
+      <SortSelect
+        items={goods}
+        setItems={setGoods}
+        sortOptions={sortOptions}
+        searchResults={searchResults}
+      />
       <Grid
         entityId="goods"
         fields={fields}
@@ -89,7 +116,7 @@ export const InvoiceGoodsEditor = ({
         setRecords={setGoods}
         defaultRecord={defaultGood}
         label="Goods"
-        filterIds={filterResults}
+        filterIds={filterIds}
       />
     </Fragment>
   );

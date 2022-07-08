@@ -3,14 +3,12 @@ import { Select } from "../../atoms/select/select";
 
 interface FilterProps {
   items: any;
-  setItems: (items: any) => void;
   filterOptions: Array<{ id: number | string; name: string }>;
   setResults: (results: Array<string | number>) => void;
 }
 
 export const Filter = ({
   items,
-  setItems,
   filterOptions,
   setResults,
 }: FilterProps): JSX.Element => {
@@ -22,7 +20,7 @@ export const Filter = ({
     if (key != "0" && filterString != "") {
       filter(key, filterString);
     } else {
-      setResults(undefined);
+      setResults([]);
     }
   };
 
@@ -32,7 +30,7 @@ export const Filter = ({
     if (selectedKey != "0" && filterValue != "") {
       filter(selectedKey, filterValue);
     } else {
-      setResults(undefined);
+      setResults([]);
     }
   };
 

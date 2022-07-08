@@ -143,7 +143,7 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
         active={props.active && field.id == props.activeField}
         fieldRef={fieldRefs.current[field.id]}
         onKeyUp={(e) => {
-          if (field.type != "reactSelect") {
+          if (field.type != "reactSelect" && field.type != "createSelect") {
             handleKeyUp(e, field.id);
           } else {
             limitedKeyUp(e, field.id);

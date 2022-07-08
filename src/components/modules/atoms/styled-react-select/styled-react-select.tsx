@@ -95,6 +95,9 @@ export const StyledReactSelect = ({
       backgroundColor: "#064663",
       fontSize: "small",
     }),
+    menuPortal: (provided: any) => ({
+      ...provided,
+    }),
     option: (provided: any, state: any) => ({
       ...provided,
       "&:hover": {
