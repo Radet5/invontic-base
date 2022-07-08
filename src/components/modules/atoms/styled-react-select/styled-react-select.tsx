@@ -129,7 +129,6 @@ export const StyledReactSelect = ({
         ref={fieldRef}
         styles={customStyles}
         onFocus={onFocus}
-        menuPosition="fixed"
         placeholder={null}
       />
     );
