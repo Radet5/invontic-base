@@ -13,6 +13,7 @@ interface GridRecordProps {
   activeField: string;
   setActiveField: (id: string) => void;
   fields: Array<FieldInterface>;
+  hide?: boolean;
 }
 
 const injectValues = (
@@ -142,7 +143,7 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
         active={props.active && field.id == props.activeField}
         fieldRef={fieldRefs.current[field.id]}
         onKeyUp={(e) => {
-          if (field.type != "reactSelect") {
+          if (field.type != "reactSelect" && field.type != "createSelect") {
             handleKeyUp(e, field.id);
           } else {
             limitedKeyUp(e, field.id);
@@ -153,7 +154,7 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
     );
   });
 
-  return <FieldRow>{fieldElements}</FieldRow>;
+  return <FieldRow hide={props.hide}>{fieldElements}</FieldRow>;
 };
 
 export default GridRecord;

@@ -57,6 +57,22 @@ export const Field = ({
         {labelElm}
       </div>
     );
+  } else if (type === "createSelect") {
+    return (
+      <div style={{ width: colWidth }} onKeyUp={onKeyUp} className="a-field">
+        <StyledReactSelect
+          value={value}
+          name={name}
+          id={id}
+          onChange={onChange}
+          onFocus={onFocus}
+          fieldRef={fieldRef}
+          options={options}
+          createable={true}
+        />
+        {labelElm}
+      </div>
+    );
   } else {
     return (
       <div style={{ width: colWidth }} className="a-field">
@@ -72,6 +88,7 @@ export const Field = ({
           onFocus={onFocus}
           onKeyUp={onKeyUp}
           onKeyDown={onKeyDown}
+          required={type == "date"}
         />
       </div>
     );

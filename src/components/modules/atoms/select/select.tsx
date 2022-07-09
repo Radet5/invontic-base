@@ -5,7 +5,7 @@ import "./select.scss";
 interface SelectProps {
   selectedId: number | string | undefined;
   onChange: (value: number | string) => void;
-  items: Array<{ id: number; name: string }>;
+  items: Array<{ id: number | string; name: string }>;
 }
 
 export const Select = ({

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FieldInterface } from "../types/field-interface";
-
 import GridRecord from "./record/grid-record";
+import "./grid.scss";
 
 interface GridProps {
   entityId: string;
@@ -9,7 +9,9 @@ interface GridProps {
   records: any;
   defaultRecord: any;
   label: string;
-  setRecords: (records: any) => void;
+  dispatch: any;
+  dispatchType: string;
+  filterIds?: Array<string | number>;
 }
 
 const Grid = ({
@@ -18,23 +20,22 @@ const Grid = ({
   records,
   defaultRecord,
   label,
-  setRecords,
+  dispatch,
+  dispatchType,
+  filterIds,
 }: GridProps): JSX.Element => {
   const [activeField, setActiveField] = useState("itemId");
   const [activeRecord, setActiveRecord] = useState(-1);
-
-  useEffect(() => {
-    if (records.length == 0) {
-      setRecords([{ ...defaultRecord, id: `${entityId}-0` }]);
-    }
-  }, [records, setRecords, defaultRecord, entityId]);
 
   const addRecord = () => {
     const newRecord = {
       ...defaultRecord,
       id: `${entityId}-${records.length}`,
     };
-    setRecords([...records, newRecord]);
+    dispatch({
+      type: "ADD_" + dispatchType,
+      payload: newRecord,
+    });
     focus(records.length);
   };
 
@@ -56,11 +57,14 @@ const Grid = ({
     setActiveRecord(id);
   };
 
-  const updateRecord = (index: number) => {
+  const updateRecord = (id: number) => {
     return function (key: string, value: string | number) {
-      const newRecords = [...records];
-      newRecords[index] = { ...records[index], [key]: value };
-      setRecords(newRecords);
+      dispatch({
+        type: "UPDATE_" + dispatchType,
+        id,
+        key,
+        value,
+      });
     };
   };
 
@@ -68,7 +72,7 @@ const Grid = ({
     return (
       <GridRecord
         record={record}
-        updateRecord={updateRecord(index)}
+        updateRecord={updateRecord(record.id)}
         active={activeRecord == index}
         onFocus={() => focus(index)}
         key={`gridRecord-${record.id}`}
@@ -77,6 +81,9 @@ const Grid = ({
         activeField={activeField}
         setActiveField={setActiveField}
         fields={fields}
+        hide={
+          filterIds && filterIds.length > 0 && !filterIds.includes(record.id)
+        }
       />
     );
   });
@@ -84,7 +91,7 @@ const Grid = ({
   return (
     <div className="o-grid">
       {recordElements}
-      <button onClick={addRecord}>Add Record</button>
+      <button onClick={addRecord}>+</button>
     </div>
   );
 };

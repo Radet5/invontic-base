@@ -13,6 +13,7 @@ export const InvoiceAggregates = ({
   const departments = records.reduce((acc, record) => {
     const extPrice = record.quantity * record.unit_price;
     const good = goods.find((good) => good.id == record.good_id);
+    if (!good) return acc;
     const department = good ? good.department : "Misc";
     const taxRate = good ? good.tax_rate : 0;
     const tax = extPrice * taxRate;

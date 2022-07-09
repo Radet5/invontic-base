@@ -1,4 +1,22 @@
 .a-field-row {
   display: flex;
-  height: 42px;
+  flex-direction: column;
+  height: fit-content;
+  margin: 5px 0;
+  padding: 2px;
+  border: 1px solid;
+  
+  &.-hide {
+    display: none;
+  }
+}
+
+@media (min-width: 426px) {
+  .a-field-row {
+    flex-direction: row;
+    height: 42px;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
 }
