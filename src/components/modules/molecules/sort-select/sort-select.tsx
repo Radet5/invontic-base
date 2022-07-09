@@ -3,16 +3,16 @@ import { Select } from "../../atoms/select/select";
 
 interface SortSelectProps {
   items: any;
-  setItems: (items: any) => void;
-  searchResults?: any;
+  dispatch: any;
+  dispatchType: string;
   sortOptions: Array<{ id: number | string; name: string }>;
 }
 
 export const SortSelect = ({
   items,
-  setItems,
+  dispatch,
+  dispatchType,
   sortOptions,
-  searchResults,
 }: SortSelectProps): JSX.Element => {
   const [selectedId, setSelectedId] = useState<number | string | undefined>();
 
@@ -21,33 +21,28 @@ export const SortSelect = ({
     sort(value);
   };
 
-  useEffect(() => {
-    if (searchResults) {
-      sort(selectedId);
-    }
-  }, [searchResults, selectedId]);
-
   const sort = (key: string | number, direction = "asc") => {
-    const newItems = structuredClone(items);
-    setItems(
-      newItems.sort((a: any, b: any) => {
-        if (typeof a[key] === "string" && typeof b[key] === "string") {
-          if (direction === "asc") {
-            return a[key].toLowerCase() > b[key].toLowerCase() ? 1 : -1;
-          } else {
-            return a[key].toLowerCase() < b[key].toLowerCase() ? 1 : -1;
-          }
-        } else if (typeof a[key] === "number" && typeof b[key] === "number") {
-          if (direction === "asc") {
-            return a[key] > b[key] ? 1 : -1;
-          } else {
-            return a[key] < b[key] ? 1 : -1;
-          }
+    const sort_function = (a: any, b: any) => {
+      if (typeof a[key] === "string" && typeof b[key] === "string") {
+        if (direction === "asc") {
+          return a[key].toLowerCase() > b[key].toLowerCase() ? 1 : -1;
         } else {
-          return 0;
+          return a[key].toLowerCase() < b[key].toLowerCase() ? 1 : -1;
         }
-      })
-    );
+      } else if (typeof a[key] === "number" && typeof b[key] === "number") {
+        if (direction === "asc") {
+          return a[key] > b[key] ? 1 : -1;
+        } else {
+          return a[key] < b[key] ? 1 : -1;
+        }
+      } else {
+        return 0;
+      }
+    };
+    dispatch({
+      type: dispatchType,
+      sort_function,
+    });
   };
 
   const options = [{ id: "" as string | number, name: "--sort by--" }].concat(

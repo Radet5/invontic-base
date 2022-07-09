@@ -9,7 +9,8 @@ interface GridProps {
   records: any;
   defaultRecord: any;
   label: string;
-  setRecords: (records: any) => void;
+  dispatch: any;
+  dispatchType: string;
   filterIds?: Array<string | number>;
 }
 
@@ -19,7 +20,8 @@ const Grid = ({
   records,
   defaultRecord,
   label,
-  setRecords,
+  dispatch,
+  dispatchType,
   filterIds,
 }: GridProps): JSX.Element => {
   const [activeField, setActiveField] = useState("itemId");
@@ -30,7 +32,10 @@ const Grid = ({
       ...defaultRecord,
       id: `${entityId}-${records.length}`,
     };
-    setRecords([...records, newRecord]);
+    dispatch({
+      type: "ADD_" + dispatchType,
+      payload: newRecord,
+    });
     focus(records.length);
   };
 
@@ -52,11 +57,14 @@ const Grid = ({
     setActiveRecord(id);
   };
 
-  const updateRecord = (index: number) => {
+  const updateRecord = (id: number) => {
     return function (key: string, value: string | number) {
-      const newRecords = structuredClone(records);
-      newRecords[index] = { ...records[index], [key]: value };
-      setRecords(newRecords);
+      dispatch({
+        type: "UPDATE_" + dispatchType,
+        id,
+        key,
+        value,
+      });
     };
   };
 
@@ -64,7 +72,7 @@ const Grid = ({
     return (
       <GridRecord
         record={record}
-        updateRecord={updateRecord(index)}
+        updateRecord={updateRecord(record.id)}
         active={activeRecord == index}
         onFocus={() => focus(index)}
         key={`gridRecord-${record.id}`}

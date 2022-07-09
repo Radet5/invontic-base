@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Select } from "../atoms/select/select";
 import Grid from "../grid/grid";
 import { Filter } from "../molecules/filter/filter";
 import { Search } from "../molecules/search/search";
@@ -7,13 +6,13 @@ import { SortSelect } from "../molecules/sort-select/sort-select";
 
 interface InvoiceGoodsEditorProps {
   goods: Array<any>;
-  setGoods: (goods: Array<any>) => void;
+  dispatch: any;
   departments: Array<{ department: string }>;
 }
 
 export const InvoiceGoodsEditor = ({
   goods,
-  setGoods,
+  dispatch,
   departments,
 }: InvoiceGoodsEditorProps): JSX.Element => {
   const [fields, setFields] = useState<any>([]);
@@ -73,8 +72,6 @@ export const InvoiceGoodsEditor = ({
     };
   });
 
-  sortOptions.push({ id: "fuseScore", name: "Search Relavance" });
-
   const filterOptions = [{ id: "department", name: "Department" }];
 
   let filterIds;
@@ -94,7 +91,8 @@ export const InvoiceGoodsEditor = ({
     <Fragment>
       <Search
         items={goods}
-        setItems={setGoods}
+        dispatch={dispatch}
+        dispatchType="SET_SEARCH_SCORES"
         keys={["name", "item_code"]}
         setResults={setSearchResults}
       />
@@ -105,15 +103,16 @@ export const InvoiceGoodsEditor = ({
       />
       <SortSelect
         items={goods}
-        setItems={setGoods}
+        dispatch={dispatch}
+        dispatchType="SORT"
         sortOptions={sortOptions}
-        searchResults={searchResults}
       />
       <Grid
         entityId="goods"
         fields={fields}
         records={goods}
-        setRecords={setGoods}
+        dispatch={dispatch}
+        dispatchType="GOOD"
         defaultRecord={defaultGood}
         label="Goods"
         filterIds={filterIds}

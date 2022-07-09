@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import Grid from "../grid/grid";
 import { Select } from "../atoms/select/select";
 import { Field } from "../atoms/field/field";
@@ -9,7 +9,7 @@ import { FieldRow } from "../atoms/field-row/field-row";
 
 interface InvoiceProps {
   invoice: any;
-  updateInvoice: (key: string, value: any) => void;
+  dispatch: any;
   suppliers: Array<{ id: number; name: string }>;
   invoiceTypes: Array<{ id: number; name: string }>;
   goods: Array<any>;
@@ -24,7 +24,7 @@ interface InvoiceRecordInterface {
 
 const Invoice = ({
   invoice,
-  updateInvoice,
+  dispatch,
   suppliers,
   invoiceTypes,
   goods,
@@ -78,9 +78,9 @@ const Invoice = ({
     ]);
   }, [goods]);
 
-  const setInvoiceRecords = (invoiceRecords: InvoiceRecordInterface[]) => {
-    updateInvoice("invoice_records", invoiceRecords);
-  };
+  if (!invoice) {
+    return <Fragment></Fragment>;
+  }
 
   const defaultInvoiceRecord = {
     good_id: 0,
@@ -94,7 +94,11 @@ const Invoice = ({
 
   const headerChange = (key: string, value: string | number) => {
     console.log(key, value);
-    updateInvoice(key, value);
+    dispatch({
+      type: "UPDATE_INVOICE",
+      key,
+      value,
+    });
   };
 
   const supplierName = suppliers.find(
@@ -189,7 +193,8 @@ const Invoice = ({
           entityId={invoice.id}
           fields={fields}
           records={invoice.invoice_records || []}
-          setRecords={setInvoiceRecords}
+          dispatch={dispatch}
+          dispatchType="RECORD"
           defaultRecord={defaultInvoiceRecord}
           label="Invoice"
         />

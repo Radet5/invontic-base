@@ -3,14 +3,16 @@ import Fuse from "fuse.js";
 
 interface SearchProps {
   items: any;
-  setItems: (items: any) => void;
+  dispatch: any;
+  dispatchType: string;
   keys: Array<string>;
   setResults: (results: Array<string | number>) => void;
 }
 
 export const Search = ({
   items,
-  setItems,
+  dispatch,
+  dispatchType,
   keys,
   setResults,
 }: SearchProps): JSX.Element => {
@@ -37,23 +39,18 @@ export const Search = ({
 
   const search = (searchString: string) => {
     const res = fuse.search(searchString);
-    const fuseScores = res.map((item: any) => {
-      return { id: item.item.id, score: item.score };
+    const fuseScoreMap: { [key: string]: number } = {};
+    res.forEach((item: any) => {
+      fuseScoreMap[item.item.id] = item.score;
     });
     //console.log(res);
     const resIds = res.map((item: any) => item.item.id);
 
-    const newItems = structuredClone(items);
-    setItems(
-      newItems.map((item: any) => {
-        const itemId = item.id;
-        const fuseScoreObj = fuseScores.find(
-          (score: any) => score.id === itemId
-        );
-        const fuseScore = fuseScoreObj ? fuseScoreObj.score : 1;
-        return { ...item, fuseScore: fuseScore };
-      })
-    );
+    dispatch({
+      type: dispatchType,
+      key: "fuseScore",
+      id_value_map: fuseScoreMap,
+    });
 
     setResults(resIds);
   };
