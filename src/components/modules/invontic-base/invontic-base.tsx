@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 import Invoice from "../invoice/invoice";
 //import FileList from "../file-list/file-list";
@@ -51,6 +52,13 @@ const invoiceReducer = (state: any, action: any) => {
       newState.invoices[selectedId][key] = value;
       return newState;
     }
+    case "ADD_INVOICE": {
+      const { invoice } = action;
+      const newState = { ...state };
+      newState.invoices = structuredClone(state.invoices);
+      newState.invoices[invoice.id] = invoice;
+      return newState;
+    }
     case "REPLACE_RECORD": {
       const { selectedId } = state;
       const newState = { ...state };
@@ -83,6 +91,19 @@ const invoiceReducer = (state: any, action: any) => {
     }
   }
   return state;
+};
+
+const baseUrl = process.env.API_URL;
+
+const retrieveGoods = (supplier_id: number) => {
+  return axios
+    .get(`${baseUrl}suppliers/${supplier_id}/goods`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 const goodsReducer = (state: any, action: any) => {
@@ -127,6 +148,8 @@ const InvonticBase = (): JSX.Element => {
     invoices: [],
   });
   const [goodsState, goodsDispatch] = useReducer(goodsReducer, []);
+  const [goodsDrawerOpen, setGoodsDrawerOpen] = useState(false);
+  const [invoiceDrawerOpen, setInvoiceDrawerOpen] = useState(false);
 
   //initialize invoices
   useEffect(() => {
@@ -140,19 +163,15 @@ const InvonticBase = (): JSX.Element => {
     if (invoicesState.selectedId !== "") {
       const selectedId = invoicesState.selectedId;
       const selectedInvoice = invoicesState.invoices[selectedId];
-      goodsDispatch({
-        type: "LOAD_GOODS",
-        supplier_id: selectedInvoice.supplier_id,
+      const goods = retrieveGoods(selectedInvoice.supplier_id);
+      goods.then((goods) => {
+        goodsDispatch({
+          type: "SET_ALL_GOODS",
+          payload: goods,
+        });
       });
     }
   }, [invoicesState.selectedId, invoicesState.invoices]);
-
-  const selectInvoice = (invoiceId: number) => {
-    invoicesDispatch({
-      type: "SELECT",
-      id: invoiceId,
-    });
-  };
 
   const invoice = invoicesState.invoices[invoicesState.selectedId];
   const goods = goodsState;
@@ -171,8 +190,11 @@ const InvonticBase = (): JSX.Element => {
           overflow: "auto",
         }}
       >
-        <Drawer defaultOpen={false}>
-          <InvoiceNavigator onInvoiceSelect={selectInvoice} />
+        <Drawer isOpen={invoiceDrawerOpen} setIsOpen={setInvoiceDrawerOpen}>
+          <InvoiceNavigator
+            dispatch={invoicesDispatch}
+            invoices={invoicesState.invoices}
+          />
         </Drawer>
         <div
           style={{
@@ -189,8 +211,13 @@ const InvonticBase = (): JSX.Element => {
             goods={goods}
           />
         </div>
-        <Drawer side="right">
+        <Drawer
+          isOpen={goodsDrawerOpen}
+          setIsOpen={setGoodsDrawerOpen}
+          side="right"
+        >
           <InvoiceGoodsEditor
+            isDisplayed={goodsDrawerOpen}
             goods={goods}
             dispatch={goodsDispatch}
             departments={jsonData.departments}

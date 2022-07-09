@@ -3,16 +3,24 @@ import "./drawer.scss";
 
 interface DrawerProps {
   children: React.ReactNode;
-  defaultOpen?: boolean;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   side?: "left" | "right";
 }
 
 export const Drawer = ({
   children,
-  defaultOpen = false,
+  isOpen,
+  setIsOpen,
   side = "left",
 }: DrawerProps): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const open = (): void => {
+    setIsOpen(true);
+  };
+
+  const close = (): void => {
+    setIsOpen(false);
+  };
 
   const openClass = isOpen ? " m-drawer--open" : "";
   if (side === "left") {
@@ -20,7 +28,7 @@ export const Drawer = ({
       <Fragment>
         <button
           className="m-drawer__open-button"
-          onClick={() => setIsOpen(true)}
+          onClick={open}
           tabIndex={!isOpen ? undefined : -1}
         >
           &gt;
@@ -28,7 +36,7 @@ export const Drawer = ({
         <div className={`m-drawer${openClass}`}>
           <button
             className="m-drawer__close-button"
-            onClick={() => setIsOpen(false)}
+            onClick={close}
             tabIndex={isOpen ? undefined : -1}
           >
             <span>&lt;</span>
@@ -42,7 +50,7 @@ export const Drawer = ({
       <Fragment>
         <button
           className="m-drawer__open-button m-drawer__open-button-right"
-          onClick={() => setIsOpen(true)}
+          onClick={open}
           tabIndex={!isOpen ? undefined : -1}
         >
           &lt;
@@ -53,7 +61,7 @@ export const Drawer = ({
           </div>
           <button
             className="m-drawer__close-button"
-            onClick={() => setIsOpen(false)}
+            onClick={close}
             tabIndex={isOpen ? undefined : -1}
           >
             <span>&gt;</span>

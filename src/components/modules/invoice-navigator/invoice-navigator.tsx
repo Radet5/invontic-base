@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { DataTable } from "../data-table/data-table";
 import { roundTwoDecimals } from "../math";
 
@@ -11,11 +12,21 @@ const jsonData =
 //round(value, 2);
 
 interface InvoiceNavigatorProps {
-  onInvoiceSelect: (invoiceId: number) => void;
+  dispatch: React.Dispatch<any>;
+  invoices: { [key: number]: any };
 }
 
+const baseUrl = process.env.API_URL;
+
+const retrieveInvoice = (id: number) => {
+  return axios
+    .get(`${baseUrl}invoices/${id}`)
+    .then((res) => res.data.data);
+};
+
 export const InvoiceNavigator = ({
-  onInvoiceSelect,
+  dispatch,
+  invoices,
 }: InvoiceNavigatorProps): JSX.Element => {
   const columns = [
     { id: "supplier_name", title: "Supplier" },
@@ -30,12 +41,29 @@ export const InvoiceNavigator = ({
     },
   ];
 
+  const selectInvoice = (id: number) => {
+    if (invoices[id]) {
+      dispatch({ type: "SELECT", id });
+    } else {
+      retrieveInvoice(id)
+        .then((invoice) => {
+          dispatch({ type: "ADD_INVOICE", invoice });
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          dispatch({ type: "SELECT", id });
+        });
+    }
+  };
+
   return (
     <div className="o-invoice-navigator">
       <DataTable
         data={JSON.parse(jsonData).data}
         columns={columns}
-        onRowClick={(row) => onInvoiceSelect(row.id)}
+        onRowClick={(row) => selectInvoice(row.id)}
       />
     </div>
   );

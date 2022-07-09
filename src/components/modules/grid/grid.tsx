@@ -12,6 +12,7 @@ interface GridProps {
   dispatch: any;
   dispatchType: string;
   filterIds?: Array<string | number>;
+  isDisplayed?: boolean;
 }
 
 const Grid = ({
@@ -23,9 +24,18 @@ const Grid = ({
   dispatch,
   dispatchType,
   filterIds,
+  isDisplayed,
 }: GridProps): JSX.Element => {
   const [activeField, setActiveField] = useState("itemId");
   const [activeRecord, setActiveRecord] = useState(-1);
+
+  useEffect(() => {
+    if (!isDisplayed) {
+      setActiveField("itemId");
+      setActiveRecord(-1);
+      (document.activeElement as HTMLElement).blur();
+    }
+  }, [isDisplayed]);
 
   const addRecord = () => {
     const newRecord = {

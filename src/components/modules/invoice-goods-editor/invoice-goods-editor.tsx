@@ -5,12 +5,14 @@ import { Search } from "../molecules/search/search";
 import { SortSelect } from "../molecules/sort-select/sort-select";
 
 interface InvoiceGoodsEditorProps {
+  isDisplayed: boolean;
   goods: Array<any>;
   dispatch: any;
   departments: Array<{ department: string }>;
 }
 
 export const InvoiceGoodsEditor = ({
+  isDisplayed,
   goods,
   dispatch,
   departments,
@@ -116,6 +118,7 @@ export const InvoiceGoodsEditor = ({
         defaultRecord={defaultGood}
         label="Goods"
         filterIds={filterIds}
+        isDisplayed={isDisplayed}
       />
     </Fragment>
   );
