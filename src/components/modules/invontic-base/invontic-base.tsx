@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 import Invoice from "../invoice/invoice";
-//import FileList from "../file-list/file-list";
 import { Drawer } from "../drawer/drawer";
 import { InvoiceNavigator } from "../invoice-navigator/invoice-navigator";
 import { TitleBar } from "../title-bar/title-bar";
@@ -94,10 +93,16 @@ const invoiceReducer = (state: any, action: any) => {
 };
 
 const baseUrl = process.env.API_URL;
+const headers = {
+  accept: "application/json",
+  Authorization: "Bearer " + "UhR0bYhzbgecfY3WMIpMTi4whkefph0ChGFzOeXk",
+};
 
 const retrieveGoods = (supplier_id: number) => {
   return axios
-    .get(`${baseUrl}suppliers/${supplier_id}/goods`)
+    .get(`${baseUrl}suppliers/${supplier_id}/goods`, {
+      headers: headers,
+    })
     .then((response) => {
       return response.data;
     })

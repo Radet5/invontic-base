@@ -8,7 +8,6 @@ interface GridProps {
   fields: Array<FieldInterface>;
   records: any;
   defaultRecord: any;
-  label: string;
   dispatch: any;
   dispatchType: string;
   filterIds?: Array<string | number>;
@@ -20,7 +19,6 @@ const Grid = ({
   fields,
   records,
   defaultRecord,
-  label,
   dispatch,
   dispatchType,
   filterIds,

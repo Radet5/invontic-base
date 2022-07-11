@@ -116,7 +116,6 @@ export const InvoiceGoodsEditor = ({
         dispatch={dispatch}
         dispatchType="GOOD"
         defaultRecord={defaultGood}
-        label="Goods"
         filterIds={filterIds}
         isDisplayed={isDisplayed}
       />

@@ -196,7 +196,6 @@ const Invoice = ({
           dispatch={dispatch}
           dispatchType="RECORD"
           defaultRecord={defaultInvoiceRecord}
-          label="Invoice"
         />
         <InvoiceRecordSums
           records={invoice.invoice_records || []}
