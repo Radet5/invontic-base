@@ -22,7 +22,7 @@ interface InvoiceRecordInterface {
   unit_price: number;
 }
 
-const Invoice = ({
+export const Invoice = ({
   invoice,
   dispatch,
   suppliers,
@@ -205,5 +205,3 @@ const Invoice = ({
     </React.Fragment>
   );
 };
-
-export default Invoice;
