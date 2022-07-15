@@ -1,5 +1,6 @@
+@use 'variables' as global;
 #app {
-  background-color: #041C32;
+  background-color: global.$dark-color;
   justify-content: flex-start;
 }
 
@@ -10,18 +11,19 @@ body {
 
 $button-height: 4px;
 button {
-  background-color: #ECB365;
+  background-color: global.$accent-color;
   border: none;
-  color: #041C32;
+  color: global.$dark-color;
   font-weight: 600;
-  font-size: large;
+  font-size: global.$large-font;
   border-radius: 4px;
 
   &.chonky-button {
-    box-shadow: 0px $button-height rgb(236, 179, 101, 0.7);
+    box-shadow: 0px $button-height global.$accent-color-70pct;
+
 
     &:active {
-      box-shadow: 0px 0px rgb(236, 179, 101, 0.7);
+      box-shadow: 0px 0px global.$accent-color-70pct;
       transform: translateY($button-height);
       transition: transform 0.2s ease-in-out;
       transition: box-shadow 0.1s ease-in-out;

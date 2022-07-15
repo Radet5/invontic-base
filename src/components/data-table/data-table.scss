@@ -1,14 +1,16 @@
+@use '/src/assets/sass/variables' as global;
+
 .o-data-table {
 
   &__row {
     cursor: pointer;
 
     &--selected {
-      background-color: #064663;
+      background-color: global.$light-color;
     }
 
     &:hover {
-      background-color: #064663;
+      background-color: global.$light-color;
     }
   }
 

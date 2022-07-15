@@ -1,3 +1,5 @@
+@use '/src/assets/sass/variables' as global;
+
 .o-invoice-navigator {
-  font-size: small;
+  font-size: global.$small-font;
 }

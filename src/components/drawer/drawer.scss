@@ -1,10 +1,12 @@
+@use '/src/assets/sass/variables' as global;
+
 .m-drawer {
-  background-color: #064663;
+  background-color: global.$light-color;
   display: flex;
   padding: 0.5rem 0.5rem 0.5rem 0;
   position:absolute;
   align-items: stretch;
-  top: 32px;
+  top: global.$title-bar-height;
   left:0;
   bottom:0;
   transform: translateX(-100%);
@@ -24,31 +26,31 @@
   &__content {
     position: relative;
     padding: 0.5rem;
-    background-color: #04293A;
+    background-color: global.$midtone-color;
     border-radius: 10px;
     overflow: auto;
   }
 
   &__close-button {
     cursor: pointer;
-    background-color: #064663;
+    background-color: global.$light-color;
     border: none;
-    color: white;
-    font-size: larger;
+    color: global.$white-color;
+    font-size: global.$large-button-font-size;
   }
 
   &__open-button {
     cursor: pointer;
     border-radius: 0 10px 10px 0;
     position: absolute;
-    top: 32px;
+    top: global.$title-bar-height;
     left: 0;
     right: 0;
     bottom: 0;
-    height: calc(100% - 32px);
-    background-color: #064663;
-    color: white;
-    font-size: larger;
+    height: calc(100% - global.$title-bar-height);
+    background-color: global.$light-color;
+    color: global.$white-color;
+    font-size: global.$large-button-font-size;
     border: none;
     z-index: 99;
     width:fit-content;

@@ -1,6 +1,8 @@
+@use '/src/assets/sass/variables' as global;
+
 .a-select {
-  color: whitesmoke;
-  background-color: #064663;
-  border-color: #04293A;
+  color: global.$white-color;
+  background-color: global.$light-color;
+  border-color: global.$midtone-color;
   border-style: solid;
 }
