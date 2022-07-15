@@ -36,8 +36,17 @@ export const Login = ({ dispatch }: LoginProps): JSX.Element => {
     }
   }, [data]);
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPayload({
+      email,
+      password,
+      device_name,
+    });
+  };
+
   const form = (
-    <div className="login__form">
+    <form onSubmit={handleSubmit} className="login__form">
       <div className="login__title">Welcome To Invontic</div>
       <FieldRow noBorder={true}>
         <Field
@@ -58,11 +67,9 @@ export const Login = ({ dispatch }: LoginProps): JSX.Element => {
         />
       </FieldRow>
       <div className="login__form__input">
-        <button onClick={() => setPayload({ email, password, device_name })}>
-          Login
-        </button>
+        <button type="submit">Login</button>
       </div>
-    </div>
+    </form>
   );
 
   const loading = <div className="login__loading">Loading...</div>;
