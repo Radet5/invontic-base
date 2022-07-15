@@ -17,17 +17,9 @@ interface InvoiceNavigatorProps {
 }
 
 const baseUrl = process.env.API_URL;
-const headers = {
-  accept: "application/json",
-  Authorization: "Bearer " + "UhR0bYhzbgecfY3WMIpMTi4whkefph0ChGFzOeXk",
-};
 
 const retrieveInvoice = (id: number) => {
-  return axios
-    .get(`${baseUrl}invoices/${id}`, {
-      headers: headers,
-    })
-    .then((res) => res.data.data);
+  return axios.get(`${baseUrl}invoices/${id}`).then((res) => res.data.data);
 };
 
 export const InvoiceNavigator = ({

@@ -78,16 +78,10 @@ const invoiceReducer = (state: any, action: any) => {
 };
 
 const baseUrl = process.env.API_URL;
-const headers = {
-  accept: "application/json",
-  Authorization: "Bearer " + "UhR0bYhzbgecfY3WMIpMTi4whkefph0ChGFzOeXk",
-};
 
 const retrieveGoods = (supplier_id: number) => {
   return axios
-    .get(`${baseUrl}suppliers/${supplier_id}/goods`, {
-      headers: headers,
-    })
+    .get(`${baseUrl}suppliers/${supplier_id}/goods`)
     .then((response) => {
       return response.data;
     })

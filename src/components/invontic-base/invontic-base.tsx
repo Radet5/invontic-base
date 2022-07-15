@@ -1,8 +1,8 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
 
 import { UserInterface } from "../../modules/types/user";
+import { UserContext } from "../context/user";
 
 import { ApplicationWrapper } from "../atoms/application-wrapper/application-wrapper";
 import { InvoicePage } from "../pages/invoice-page";
@@ -40,12 +40,16 @@ const InvonticBase = (): JSX.Element => {
 
   let page: JSX.Element;
   if (!user) {
-    page = <LoginPage />;
+    page = <LoginPage dispatch={userDispatch} />;
   } else {
     page = <InvoicePage />;
   }
 
-  return <ApplicationWrapper>{page}</ApplicationWrapper>;
+  return (
+    <ApplicationWrapper>
+      <UserContext.Provider value={...user}> {page}</UserContext.Provider>
+    </ApplicationWrapper>
+  );
 };
 
 export default InvonticBase;
