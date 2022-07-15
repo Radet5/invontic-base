@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { DataTable } from "../data-table/data-table";
-import { roundTwoDecimals } from "../math";
+import { roundTwoDecimals } from "../../modules/math";
 
 import "./invoice-navigator.scss";
 

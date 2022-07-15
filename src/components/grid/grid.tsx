@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FieldInterface } from "../types/field-interface";
+import { FieldInterface } from "../../modules/types/field-interface";
 import GridRecord from "./record/grid-record";
 import "./grid.scss";
 

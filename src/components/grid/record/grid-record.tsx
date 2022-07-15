@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, useRef, useState } from "react";
-import { FieldInterface } from "../../types/field-interface";
+import { FieldInterface } from "../../../modules/types/field-interface";
 import { Field } from "../../atoms/field/field";
 import { FieldRow } from "../../atoms/field-row/field-row";
 

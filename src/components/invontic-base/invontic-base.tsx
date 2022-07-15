@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 import { Login } from "../login/login";
-import { UserInterface } from "../types/user";
+import { UserInterface } from "../../modules/types/user";
 
 import { ApplicationWrapper } from "../atoms/application-wrapper/application-wrapper";
 import { InvoicePage } from "../pages/invoice-page";

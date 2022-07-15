@@ -1,6 +1,6 @@
 import React from "react";
 
-import InvonticBase from "./modules/invontic-base/invontic-base";
+import InvonticBase from "../components/invontic-base/invontic-base";
 
 const App = () => (
   <React.Fragment>

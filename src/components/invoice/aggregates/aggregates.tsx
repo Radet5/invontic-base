@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { roundTwoDecimals } from "../../math";
+import { roundTwoDecimals } from "../../../modules/math";
 
 interface InvoiceAggregates {
   records: Array<any>;

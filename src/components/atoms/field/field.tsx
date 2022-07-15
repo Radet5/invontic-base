@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FieldInterface } from "../../types/field-interface";
+import { FieldInterface } from "../../../modules/types/field-interface";
 import { StyledReactSelect } from "../styled-react-select/styled-react-select";
 
 import "./field.scss";
