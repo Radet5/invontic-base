@@ -146,12 +146,13 @@ export const InvoicePage = () => {
     });
   }, []);
 
+  const selectedId = invoicesState.selectedId;
+  const selectedInvoice = invoicesState.invoices[selectedId];
+  const selectedSupplierId = selectedInvoice?.supplier_id;
   //when invoice is selected, load goods
   useEffect(() => {
     if (invoicesState.selectedId !== "") {
-      const selectedId = invoicesState.selectedId;
-      const selectedInvoice = invoicesState.invoices[selectedId];
-      const goods = retrieveGoods(selectedInvoice.supplier_id);
+      const goods = retrieveGoods(selectedSupplierId);
       goods.then((goods) => {
         goodsDispatch({
           type: "SET_ALL_GOODS",
@@ -159,7 +160,7 @@ export const InvoicePage = () => {
         });
       });
     }
-  }, [invoicesState.selectedId, invoicesState.invoices]);
+  }, [invoicesState.selectedId, invoicesState.invoices, selectedSupplierId]);
 
   const invoice = invoicesState.invoices[invoicesState.selectedId];
   const goods = goodsState;
