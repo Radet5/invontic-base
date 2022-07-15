@@ -2,11 +2,11 @@ import React, { useEffect, useReducer, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
-import { Login } from "../login/login";
 import { UserInterface } from "../../modules/types/user";
 
 import { ApplicationWrapper } from "../atoms/application-wrapper/application-wrapper";
 import { InvoicePage } from "../pages/invoice-page";
+import { LoginPage } from "../pages/login-page";
 
 const blankInvoice = {
   id: uuidv4(),
@@ -40,7 +40,7 @@ const InvonticBase = (): JSX.Element => {
 
   let page: JSX.Element;
   if (!user) {
-    page = <Login />;
+    page = <LoginPage />;
   } else {
     page = <InvoicePage />;
   }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import axios from "axios";
 
-import { StandardLayout } from "../standard-layout/standard-layout";
+import { StandardTemplate } from "../templates/standard/standard";
 import { InvoiceNavigator } from "../invoice-navigator/invoice-navigator";
 import { InvoiceGoodsEditor } from "../invoice-goods-editor/invoice-goods-editor";
 import { Invoice } from "../invoice/invoice";
@@ -171,7 +171,7 @@ export const InvoicePage = () => {
   const goods = goodsState;
 
   return (
-    <StandardLayout
+    <StandardTemplate
       leftDrawerContent={
         <InvoiceNavigator
           dispatch={invoicesDispatch}
@@ -195,6 +195,6 @@ export const InvoicePage = () => {
         invoiceTypes={jsonData.invoiceTypes}
         goods={goods}
       />
-    </StandardLayout>
+    </StandardTemplate>
   );
 };

@@ -1,8 +1,10 @@
 import React, { Fragment, useState } from "react";
 
-import { Drawer } from "../drawer/drawer";
+import { Drawer } from "../../drawer/drawer";
 
-interface StandardLayoutProps {
+import "./standard.scss";
+
+interface StandardTemplateProps {
   children: React.ReactNode;
   leftDrawerContent: React.ReactNode;
   rightDrawerContent: React.ReactNode;
@@ -10,13 +12,13 @@ interface StandardLayoutProps {
   rightDrawerStateCallback?: (state: boolean) => void;
 }
 
-export const StandardLayout = ({
+export const StandardTemplate = ({
   children,
   leftDrawerContent,
   rightDrawerContent,
   leftDrawerStateCallback,
   rightDrawerStateCallback,
-}: StandardLayoutProps): JSX.Element => {
+}: StandardTemplateProps): JSX.Element => {
   const [leftDrawerOpen, setLeftDrawerOpen] = useState(false);
   const [rightDrawerOpen, setRightDrawerOpen] = useState(false);
 
@@ -39,15 +41,7 @@ export const StandardLayout = ({
       <Drawer isOpen={leftDrawerOpen} setIsOpen={toggleLeftDrawer}>
         {leftDrawerContent}
       </Drawer>
-      <div
-        style={{
-          width: "fit-content",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
-        {children}
-      </div>
+      <div className="standard-template__content">{children}</div>
       <Drawer
         isOpen={rightDrawerOpen}
         setIsOpen={toggleRightDrawer}

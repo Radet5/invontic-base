@@ -1,0 +1,11 @@
+.a-application-wrapper {
+  &__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: calc(90vw - 20px);
+    margin-top: calc(5vh + 32px);
+    max-height: 80vh;
+    overflow: auto;
+  }
+}

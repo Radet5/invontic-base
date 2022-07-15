@@ -14,19 +14,7 @@ export const ApplicationWrapper = ({
   return (
     <div className="a-application-wrapper">
       <TitleBar />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: "calc(90vw - 20px)",
-          marginTop: "calc(5vh + 32px)",
-          maxHeight: "80vh",
-          overflow: "auto",
-        }}
-      >
-        {children}
-      </div>
+      <div className="a-application-wrapper__content">{children}</div>
     </div>
   );
 };
