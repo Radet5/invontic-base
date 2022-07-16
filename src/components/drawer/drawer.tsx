@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import "./drawer.scss";
 
 interface DrawerProps {
@@ -14,20 +14,27 @@ export const Drawer = ({
   setIsOpen,
   side = "left",
 }: DrawerProps): JSX.Element => {
+  const [hide, setHide] = useState(true);
   const open = (): void => {
     setIsOpen(true);
   };
+
+  useEffect(() => {
+    setHide(false);
+  }, []);
 
   const close = (): void => {
     setIsOpen(false);
   };
 
   const openClass = isOpen ? " m-drawer--open" : "";
+  const hideClass = hide ? " m-drawer__open-button--hide" : "";
+  const hideClassRight = hide ? " m-drawer__open-button-right--hide" : "";
   if (side === "left") {
     return (
       <Fragment>
         <button
-          className="m-drawer__open-button"
+          className={`m-drawer__open-button${hideClass}`}
           onClick={open}
           tabIndex={!isOpen ? undefined : -1}
         >
@@ -49,7 +56,7 @@ export const Drawer = ({
     return (
       <Fragment>
         <button
-          className="m-drawer__open-button m-drawer__open-button-right"
+          className={`m-drawer__open-button m-drawer__open-button-right${hideClassRight}`}
           onClick={open}
           tabIndex={!isOpen ? undefined : -1}
         >
