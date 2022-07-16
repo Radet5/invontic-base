@@ -1,7 +1,8 @@
-const { ipcRenderer } = window.require("electron");
-class FileHandler {
+const electronAPI = window.electronAPI;
+
+export class FileHandler {
   onSave = (onSaveFileStatus: (status: string) => void): void => {
-    ipcRenderer.on("save-json-file-reply", (event: unknown, arg: string) => {
+    electronAPI.saveJSONFileReply((event: unknown, arg: string) => {
       onSaveFileStatus(arg);
     });
   };
@@ -9,8 +10,7 @@ class FileHandler {
   onFileList = (
     onFileList: (files: Array<Record<string, string>>) => void
   ): void => {
-    ipcRenderer.on(
-      "list-files-reply",
+    electronAPI.listFilesReply(
       (event: unknown, arg: Array<Record<string, string>>) => {
         onFileList(arg);
       }
@@ -18,18 +18,36 @@ class FileHandler {
   };
 
   onFileLoad = (onFileLoad: (fileContents: any) => void): void => {
-    ipcRenderer.on("load-json-file-reply", (event: unknown, arg: any) => {
+    electronAPI.loadJSONFileReply((event: unknown, arg: any) => {
       arg.error ? console.warn(arg.error) : null;
       onFileLoad(arg);
     });
   };
 
   loadFile = (fileName: string, subDirectory: string): void => {
-    ipcRenderer.send("load-json-file", { fileName, subDirectory });
+    electronAPI.loadJSONFile({ fileName, subDirectory });
   };
 
-  listFiles = (subDirectory: string): void => {
-    ipcRenderer.send("list-files", subDirectory);
+  loadSecureFile = (fileName: string, subDirectory: string): void => {
+    electronAPI.loadSecureJSONFile({ fileName, subDirectory });
+  };
+
+  listFiles = async (subDirectory: string): Promise<any> => {
+    return electronAPI.listFiles(subDirectory);
+  };
+
+  getManyFiles = async (
+    subDirectory: string,
+    fileNames: Array<string>
+  ): Promise<any> => {
+    return electronAPI.getManyFiles({ subDirectory, fileNames });
+  };
+
+  getManyFilesSecure = async (
+    subDirectory: string,
+    fileNames: Array<string>
+  ): Promise<any> => {
+    return electronAPI.getManyFilesSecure({ subDirectory, fileNames });
   };
 
   saveFile = (
@@ -39,8 +57,16 @@ class FileHandler {
     editTimestamp?: string
   ): void => {
     const fileData = { editTimestamp, data, fileName, subDirectory };
-    ipcRenderer.send("save-json-file", { fileName, subDirectory, fileData });
+    electronAPI.saveJSONFile({ fileName, subDirectory, fileData });
+  };
+
+  saveSecureFile = (
+    fileName: string,
+    subDirectory: string,
+    data: any,
+    editTimestamp?: string
+  ): void => {
+    const fileData = { editTimestamp, data, fileName, subDirectory };
+    electronAPI.saveSecureJSONFile({ fileName, subDirectory, fileData });
   };
 }
-
-export default FileHandler;

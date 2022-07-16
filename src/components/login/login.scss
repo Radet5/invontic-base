@@ -1,16 +1,7 @@
 @use '/src/assets/sass/variables' as global;
 
 .login {
-  width: fit-content;
-
-  &__form {
-    display: flex;
-    flex-direction: column;
-  }
-
-  @media (min-width: global.$sm-breakpoint) {
-    &__form {
-      gap: 5px;
-    }
+  &__title {
+    margin-bottom: 5px;
   }
 }

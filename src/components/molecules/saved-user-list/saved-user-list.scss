@@ -1,0 +1,30 @@
+@use "/src/assets/sass/variables" as global;
+
+.m-saved-user-list {
+  display: flex;
+  flex-direction: column;
+  background-color: global.$light-color;
+  padding: 10px;
+  border-radius: 10px;
+
+  &__user{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 10px;
+    background-color: global.$midtone-color;
+    border: 1px solid global.$light-color;
+    border-radius: 4px;
+    user-select: none;
+    color: global.$white-color;
+    cursor: pointer;
+
+    &:hover {
+      background-color: global.$dark-color;
+    }
+
+    &:active {
+      border: 1px solid global.$accent-color;
+    }
+  }
+}

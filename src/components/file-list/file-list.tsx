@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import FileHandler from "../file-handler/file-handler";
+import { FileHandler } from "../file-handler/file-handler";
 
 interface FileListProps {
   subDirectory: string;

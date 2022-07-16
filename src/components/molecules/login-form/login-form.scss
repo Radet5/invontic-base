@@ -1,0 +1,23 @@
+@use '/src/assets/sass/variables' as global;
+
+.m-login-form {
+  width: fit-content;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__checkbox-container {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    font-size: global.$medium-font;
+  }
+
+  @media (min-width: global.$sm-breakpoint) {
+    &__form {
+      gap: 5px;
+    }
+  }
+}

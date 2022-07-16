@@ -165,6 +165,21 @@ export const InvoicePage = () => {
   const invoice = invoicesState.invoices[invoicesState.selectedId];
   const goods = goodsState;
 
+  const mainContent =
+    selectedId != "" ? (
+      <Invoice
+        invoice={invoice}
+        dispatch={invoicesDispatch}
+        suppliers={jsonData.suppliers}
+        invoiceTypes={jsonData.invoiceTypes}
+        goods={goods}
+      />
+    ) : (
+      <div style={{ height: "80vh", display: "flex", alignItems: "center" }}>
+        <h2>Invoice Editor</h2>
+      </div>
+    );
+
   return (
     <StandardTemplate
       leftDrawerContent={
@@ -183,13 +198,7 @@ export const InvoicePage = () => {
       }
       rightDrawerStateCallback={setGoodsDrawerOpen}
     >
-      <Invoice
-        invoice={invoice}
-        dispatch={invoicesDispatch}
-        suppliers={jsonData.suppliers}
-        invoiceTypes={jsonData.invoiceTypes}
-        goods={goods}
-      />
+      {mainContent}
     </StandardTemplate>
   );
 };
