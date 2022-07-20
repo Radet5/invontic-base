@@ -12,11 +12,21 @@ body {
 $button-height: 4px;
 button {
   background-color: global.$accent-color;
-  border: none;
+  border: 1px solid global.$dark-color;
   color: global.$dark-color;
   font-weight: 600;
   font-size: global.$large-font;
   border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid global.$white-color;
+  }
+
+  &:active {
+    color: global.$light-color;
+    border: 1px solid global.$light-color;
+  }
 
   &.chonky-button {
     box-shadow: 0px $button-height global.$accent-color-70pct;
