@@ -126,10 +126,12 @@ ipcMain.handle("get-many-files", async (event, { subDirectory, fileNames }) => {
 ipcMain.handle(
   "get-many-files-secure",
   async (event, { subDirectory, fileNames }) => {
-    const reply = await fileHandler.getManyFiles(
-      { subDirectory, fileNames },
-      true
-    );
+    let reply;
+    if (safeStorage.isEncryptionAvailable()) {
+      reply = await fileHandler.getManyFiles({ subDirectory, fileNames }, true);
+    } else {
+      reply = [];
+    }
     return reply;
   }
 );

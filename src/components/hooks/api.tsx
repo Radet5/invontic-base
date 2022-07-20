@@ -46,6 +46,7 @@ const apiReducer = (state: ApiReducerState, action: ApiReducerAction) => {
         ...state,
         isLoading: false,
         isError: true,
+        error: action.payload,
       };
     default:
       throw new Error();
@@ -70,6 +71,7 @@ export const useApi = ({
     isLoading: false,
     isError: false,
     data: initialData,
+    error: "",
   });
 
   useEffect(() => {
@@ -102,7 +104,7 @@ export const useApi = ({
         }
       } catch (error) {
         if (!didCancel) {
-          dispatch({ type: "API_FAILURE" });
+          dispatch({ type: "API_FAILURE", payload: error });
         }
       }
     };

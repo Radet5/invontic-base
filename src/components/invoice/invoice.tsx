@@ -55,7 +55,7 @@ export const Invoice = ({
         type: "reactSelect",
         id: "good_id_item_code",
         label: "Item Code",
-        options: goods.map((good: any) => {
+        options: goods?.map((good: any) => {
           return {
             value: good.id,
             label: good.item_code,
@@ -68,7 +68,7 @@ export const Invoice = ({
         type: "reactSelect",
         id: "good_id_name",
         label: "Good Name",
-        options: goods.map((good: any) => {
+        options: goods?.map((good: any) => {
           return {
             value: good.id,
             label: good.name,

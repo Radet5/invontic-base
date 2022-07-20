@@ -76,7 +76,7 @@ const Grid = ({
     };
   };
 
-  const recordElements = records.map((record: any, index: number) => {
+  const recordElements = records?.map((record: any, index: number) => {
     return (
       <GridRecord
         record={record}
