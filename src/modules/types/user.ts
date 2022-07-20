@@ -3,4 +3,5 @@ export interface UserInterface {
   name: string;
   email: string;
   organization_id: number;
+  authInterceptorId: number;
 }

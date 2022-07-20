@@ -9,7 +9,9 @@ import { FieldRow } from "../../../components/atoms/field-row/field-row";
 import "./login-form.scss";
 
 interface LoginFormProps {
-  dispatch: Dispatch<SetStateAction<{ type: string; user: UserInterface }>>;
+  dispatch: Dispatch<
+    SetStateAction<{ type: string; user: UserInterface; token: string }>
+  >;
   saveToFile: (
     id: string,
     subDirectory: string,
@@ -35,12 +37,7 @@ export const LoginForm = ({
 
   useEffect(() => {
     if (data?.token) {
-      dispatch({ type: "SET_USER", user: data.user });
-      axios.interceptors.request.use((req: any) => {
-        req.headers.authorization = `Bearer ${data.token}`;
-        return req;
-      });
-      //localStorage.setItem("token", data.token);
+      dispatch({ type: "SET_USER", user: data.user, token: data.token });
       if (saveLogin) {
         saveToFile(
           data.user.id,

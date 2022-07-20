@@ -1,5 +1,4 @@
 import React, { Dispatch, SetStateAction } from "react";
-import axios from "axios";
 
 import { UserInterface } from "../../../modules/types/user";
 
@@ -10,7 +9,9 @@ interface SavedUserListProps {
     user: UserInterface;
     token: string;
   }>;
-  dispatch: Dispatch<SetStateAction<{ type: string; user: UserInterface }>>;
+  dispatch: Dispatch<
+    SetStateAction<{ type: string; user: UserInterface; token: string }>
+  >;
 }
 
 export const SavedUserList = ({
@@ -25,10 +26,10 @@ export const SavedUserList = ({
             className="m-saved-user-list__user"
             key={userFile.user.id}
             onClick={() => {
-              dispatch({ type: "SET_USER", user: userFile.user });
-              axios.interceptors.request.use((req: any) => {
-                req.headers.authorization = `Bearer ${userFile.token}`;
-                return req;
+              dispatch({
+                type: "SET_USER",
+                user: userFile.user,
+                token: userFile.token,
               });
             }}
           >
