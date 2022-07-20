@@ -18,6 +18,9 @@ export const Field = ({
   fieldRef,
   onKeyUp,
   onKeyDown,
+  max,
+  min,
+  step,
 }: FieldInterface): JSX.Element => {
   const [colWidth, setColWidth] = useState(width ? width : 200 + "px");
 
@@ -89,6 +92,9 @@ export const Field = ({
           onKeyUp={onKeyUp}
           onKeyDown={onKeyDown}
           required={type == "date"}
+          max={max}
+          min={min}
+          step={step}
         />
       </div>
     );

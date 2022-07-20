@@ -15,4 +15,7 @@ export interface FieldInterface {
   onKeyUp?: (event: React.KeyboardEvent) => void;
   onKeyDown?: (event: React.KeyboardEvent) => void;
   options?: any;
+  max?: number;
+  min?: number;
+  step?: number;
 }
