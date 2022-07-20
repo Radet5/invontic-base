@@ -2,4 +2,13 @@
 
 .o-invoice-navigator {
   font-size: global.$small-font;
+  &__control {
+    display: flex;
+    justify-content: space-between;
+
+    &__page-number {
+      display: flex;
+      align-items: baseline;
+    }
+  }
 }

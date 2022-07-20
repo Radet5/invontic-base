@@ -24,6 +24,13 @@ const invoiceReducer = (state: any, action: any) => {
       return {
         ...state,
         selectedId: action.id,
+        error: undefined,
+      };
+    }
+    case "ERROR": {
+      return {
+        ...state,
+        error: action.error,
       };
     }
     case "UPDATE_INVOICE": {
@@ -144,6 +151,18 @@ export const InvoicePage = () => {
     invoicesDispatch({
       type: "LOAD_INVOICES",
     });
+
+    return () => {
+      console.log("InvoicePage Unmount");
+      axios
+        .put(`${baseUrl}clear-invoice-lock`, {})
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      };
   }, []);
 
   const selectedId = invoicesState.selectedId;
@@ -165,20 +184,21 @@ export const InvoicePage = () => {
   const invoice = invoicesState.invoices[invoicesState.selectedId];
   const goods = goodsState;
 
-  const mainContent =
-    selectedId != "" ? (
-      <Invoice
-        invoice={invoice}
-        dispatch={invoicesDispatch}
-        suppliers={jsonData.suppliers}
-        invoiceTypes={jsonData.invoiceTypes}
-        goods={goods}
-      />
-    ) : (
-      <div style={{ height: "80vh", display: "flex", alignItems: "center" }}>
-        <h2>Invoice Editor</h2>
-      </div>
-    );
+  const mainContent = invoicesState.error ? (
+    <div>{invoicesState.error}</div>
+  ) : selectedId != "" ? (
+    <Invoice
+      invoice={invoice}
+      dispatch={invoicesDispatch}
+      suppliers={jsonData.suppliers}
+      invoiceTypes={jsonData.invoiceTypes}
+      goods={goods}
+    />
+  ) : (
+    <div style={{ height: "80vh", display: "flex", alignItems: "center" }}>
+      <h2>Invoice Editor</h2>
+    </div>
+  );
 
   return (
     <StandardTemplate

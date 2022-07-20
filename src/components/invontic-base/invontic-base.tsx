@@ -1,9 +1,10 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { UserInterface } from "../../modules/types/user";
 import { UserContext } from "../context/user";
 
+import { ErrorBoundary } from "../atoms/error-boundary/error-boundary";
 import { ApplicationWrapper } from "../atoms/application-wrapper/application-wrapper";
 import { InvoicePage } from "../pages/invoice-page";
 import { LoginPage } from "../pages/login-page";
@@ -33,22 +34,54 @@ const userReducer = (state: any, action: any) => {
 
 const InvonticBase = (): JSX.Element => {
   const [user, userDispatch] = useReducer(userReducer, undefined);
+  const [selectedPage, setSelectedPage] = useState("login-page");
 
   useEffect(() => {
     console.log("ROOT RENDERED");
   });
 
+  useEffect(() => {
+    if (!user) {
+      setSelectedPage("login-page");
+    } else {
+      setSelectedPage("invoice-page");
+    }
+  }, [user]);
+
   let page: JSX.Element;
-  if (!user) {
-    page = <LoginPage dispatch={userDispatch} />;
-  } else {
-    page = <InvoicePage />;
+  switch (selectedPage) {
+    case "login-page": {
+      page = <LoginPage dispatch={userDispatch} />;
+      break;
+    }
+    case "home-page": {
+      page = <div>FIller</div>;
+      break;
+    }
+    case "invoice-page": {
+      page = <InvoicePage />;
+      break;
+    }
   }
 
+  const tempSelect: React.ReactNode = null; // (
+  //  <select
+  //    value={selectedPage}
+  //    onChange={(e) => setSelectedPage(e.target.value)}
+  //  >
+  //    <option value="login-page">Login Page</option>
+  //    <option value="invoice-page">Invoice Page</option>
+  //    <option value="home-page">Home Page</option>
+  //  </select>
+  //);
+
   return (
-    <ApplicationWrapper>
-      <UserContext.Provider value={...user}> {page}</UserContext.Provider>
-    </ApplicationWrapper>
+    <ErrorBoundary>
+      <ApplicationWrapper>
+        <UserContext.Provider value={...user}> {page}</UserContext.Provider>
+      </ApplicationWrapper>
+      {tempSelect}
+    </ErrorBoundary>
   );
 };
 
