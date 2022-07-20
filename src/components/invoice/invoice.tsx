@@ -93,7 +93,7 @@ export const Invoice = ({
   //console.log(invoice.invoice_records);
 
   const headerChange = (key: string, value: string | number) => {
-    console.log(key, value);
+    //console.log(key, value);
     dispatch({
       type: "UPDATE_INVOICE",
       key,

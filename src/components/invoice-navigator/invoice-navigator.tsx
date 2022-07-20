@@ -38,7 +38,7 @@ export const InvoiceNavigator = ({
 
   const userContext = useContext(UserContext);
 
-  console.log(data);
+  //console.log(data);
 
   useEffect(() => {
     if (userContext?.organization_id) {
