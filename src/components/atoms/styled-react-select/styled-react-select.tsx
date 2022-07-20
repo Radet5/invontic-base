@@ -36,12 +36,20 @@ export const StyledReactSelect = ({
   };
 
   useEffect(() => {
-    if (value && options) {
-      setSelectedOption(
-        options.find(
-          (option: { value: string; label: string }) => option.value === value
-        )
-      );
+    if (options) {
+      if (createable) {
+        setSelectedOption(
+          options.find(
+            (option: { value: string; label: string }) => option.value === value
+          )
+        );
+      } else {
+        setSelectedOption(
+          options.find(
+            (option: { value: string; label: string }) => option.value === value
+          ) || ""
+        );
+      }
     }
   }, [value, options]);
 
