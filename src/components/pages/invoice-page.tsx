@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, Fragment } from "react";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 import { StandardTemplate } from "../templates/standard/standard";
 import { InvoiceNavigator } from "../invoice-navigator/invoice-navigator";
@@ -7,6 +8,19 @@ import { InvoiceGoodsEditor } from "../invoice-goods-editor/invoice-goods-editor
 import { Invoice } from "../invoice/invoice";
 
 import { jsonData } from "../invontic-base/temp_data";
+
+const blankInvoice = {
+  id: "",
+  supplier_id: "",
+  supplier_name: "",
+  supplier_invoice_id: "",
+  invoice_date: "",
+  invoice_type_id: 0,
+  invoice_type: "",
+  invoice_total: 0,
+  accounting_date: "",
+  invoice_records: [] as any,
+};
 
 const invoiceReducer = (state: any, action: any) => {
   switch (action.type) {
@@ -48,6 +62,16 @@ const invoiceReducer = (state: any, action: any) => {
       const newState = { ...state };
       newState.invoices = structuredClone(state.invoices);
       newState.invoices[invoice.id] = invoice;
+      return newState;
+    }
+    case "CREATE_INVOICE": {
+      const newState = { ...state };
+      const newId = uuidv4();
+      const newInvoice = { ...blankInvoice };
+      newInvoice.id = newId;
+      newState.invoices = structuredClone(state.invoices);
+      newState.invoices[newId] = newInvoice;
+      newState.selectedId = newId;
       return newState;
     }
     case "REPLACE_RECORD": {
@@ -162,7 +186,7 @@ export const InvoicePage = () => {
         .catch((error) => {
           console.log(error);
         });
-      };
+    };
   }, []);
 
   const selectedId = invoicesState.selectedId;
@@ -187,16 +211,34 @@ export const InvoicePage = () => {
   const mainContent = invoicesState.error ? (
     <div>{invoicesState.error}</div>
   ) : selectedId != "" ? (
-    <Invoice
-      invoice={invoice}
-      dispatch={invoicesDispatch}
-      suppliers={jsonData.suppliers}
-      invoiceTypes={jsonData.invoiceTypes}
-      goods={goods}
-    />
+    <Fragment>
+      <button
+        style={{ display: "block" }}
+        onClick={() => invoicesDispatch({ type: "CREATE_INVOICE" })}
+      >
+        Create New Invoice
+      </button>
+      <Invoice
+        invoice={invoice}
+        dispatch={invoicesDispatch}
+        suppliers={jsonData.suppliers}
+        invoiceTypes={jsonData.invoiceTypes}
+        goods={goods}
+      />
+    </Fragment>
   ) : (
-    <div style={{ height: "80vh", display: "flex", alignItems: "center" }}>
+    <div
+      style={{
+        height: "80vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
       <h2>Invoice Editor</h2>
+      <button onClick={() => invoicesDispatch({ type: "CREATE_INVOICE" })}>
+        Create New Invoice
+      </button>
     </div>
   );
 
