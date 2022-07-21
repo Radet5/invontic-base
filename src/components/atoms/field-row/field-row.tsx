@@ -12,7 +12,7 @@ export const FieldRow = ({
   children,
   hide,
   noBorder,
-  setHovered,
+  setHovered = (): void => null,
 }: FieldRowProps): JSX.Element => {
   const className = `a-field-row${hide ? " a-field-row--hide" : ""}${
     noBorder ? " a-field-row--no-border" : ""

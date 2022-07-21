@@ -10,6 +10,7 @@
   // float label below input when focussed, otherwise show label as a placeholder
   &__label {
     position: absolute;
+    color: global.$accent-color;
     font-size: global.$medium-font;
     bottom: 0;
     margin: 1px 0;

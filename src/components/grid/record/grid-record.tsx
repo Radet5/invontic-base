@@ -72,6 +72,8 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
   };
 
   const focus = (id: string) => {
+    console.log("focus", id);
+    console.log("fieldRefs", fieldRefs.current);
     if (fieldRefs.current[id]) {
       fieldRefs.current[id].current.focus();
     }
