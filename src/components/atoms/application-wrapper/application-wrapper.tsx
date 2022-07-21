@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TitleBar } from "../../title-bar/title-bar";
+import { TitleBar } from "../title-bar/title-bar";
 
 import "./application-wrapper.scss";
 

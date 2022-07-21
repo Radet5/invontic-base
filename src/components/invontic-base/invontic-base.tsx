@@ -70,7 +70,7 @@ const InvonticBase = (): JSX.Element => {
       break;
     }
     case "invoice-page": {
-      page = <InvoicePage />;
+      page = <InvoicePage userDispatch={userDispatch} />;
       break;
     }
   }
@@ -92,14 +92,6 @@ const InvonticBase = (): JSX.Element => {
         <UserContext.Provider value={...user}> {page}</UserContext.Provider>
       </ApplicationWrapper>
       {tempSelect}
-      {user && (
-        <div
-          style={{ cursor: "pointer" }}
-          onClick={() => userDispatch({ type: "LOGOUT" })}
-        >
-          Logout
-        </div>
-      )}
     </ErrorBoundary>
   );
 };

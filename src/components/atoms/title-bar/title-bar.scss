@@ -1,13 +1,13 @@
 @use '/src/assets/sass/variables' as global;
 
-.o-title-bar {
+.a-title-bar {
   position: absolute;
   width: 100vw;
   top: 0;
   left: 0;
   z-index: 101;
   height: global.$title-bar-height;
-  background-color: #2f3241;
+  background-color: global.$title-bar-color;
   -webkit-app-region: drag;
   display: flex;
   justify-content: center;

@@ -6,6 +6,7 @@ interface DrawerProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   side?: "left" | "right";
+  hide?: boolean;
 }
 
 export const Drawer = ({
@@ -13,15 +14,11 @@ export const Drawer = ({
   isOpen,
   setIsOpen,
   side = "left",
+  hide,
 }: DrawerProps): JSX.Element => {
-  const [hide, setHide] = useState(true);
   const open = (): void => {
     setIsOpen(true);
   };
-
-  useEffect(() => {
-    setHide(false);
-  }, []);
 
   const close = (): void => {
     setIsOpen(false);

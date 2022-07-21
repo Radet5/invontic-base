@@ -7,7 +7,6 @@
     justify-content: space-between;
     width: calc(90vw - 20px);
     margin-top: calc(5vh + global.$title-bar-height);
-    max-height: global.$max-page-height;
     overflow: auto;
   }
 }

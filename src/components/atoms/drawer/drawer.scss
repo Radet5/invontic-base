@@ -34,7 +34,7 @@
   &__close-button {
     cursor: pointer;
     background-color: global.$light-color;
-    border: none;
+    border: 1px solid global.$light-color;
     color: global.$white-color;
     font-size: global.$large-button-font-size;
   }
@@ -49,9 +49,9 @@
     bottom: 0;
     height: calc(100% - global.$title-bar-height);
     background-color: global.$light-color;
+    border: 1px solid global.$light-color;
     color: global.$white-color;
     font-size: global.$large-button-font-size;
-    border: none;
     z-index: 99;
     width:fit-content;
     transform: translateX(0);

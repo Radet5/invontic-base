@@ -2,5 +2,5 @@ import React from "react";
 import "./title-bar.scss";
 
 export const TitleBar = () => {
-  return <div className="o-title-bar">Invontic</div>;
+  return <div className="a-title-bar">Invontic</div>;
 };
