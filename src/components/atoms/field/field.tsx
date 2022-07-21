@@ -21,6 +21,7 @@ export const Field = ({
   max,
   min,
   step,
+  hideValidLabel,
 }: FieldInterface): JSX.Element => {
   const [colWidth, setColWidth] = useState(width ? width : 200 + "px");
 
@@ -30,15 +31,12 @@ export const Field = ({
     }
   }, [width]);
 
+  const activeOrValidCSSTag = active ? " -active" : value ? " -valid" : "";
+  const hideCSSTag = value && hideValidLabel ? " -hide" : "";
+
   const labelElm = (
     <label
-      className={
-        active
-          ? "a-field__label -active"
-          : value
-          ? "a-field__label -valid"
-          : "a-field__label"
-      }
+      className={`a-field__label${activeOrValidCSSTag}${hideCSSTag}`}
       htmlFor={id}
     >
       {label}

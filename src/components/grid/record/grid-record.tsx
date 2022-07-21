@@ -5,6 +5,7 @@ import { FieldRow } from "../../atoms/field-row/field-row";
 
 interface GridRecordProps {
   record: any;
+  recordIndex?: number;
   updateRecord: (key: string, value: string | number) => void;
   active: boolean;
   onFocus: () => void;
@@ -58,6 +59,7 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
   const refObject: any = {};
   fieldData.forEach((field) => (refObject[field.id] = createRef()));
   const fieldRefs = useRef(refObject);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     props.active ? focus(props.activeField) : null;
@@ -133,6 +135,9 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
     }
   };
 
+  const hideValidLabel =
+    props.active || props.recordIndex == 0 || hovered ? false : true;
+
   const fieldElements = fieldData.map((field) => {
     return (
       <Field
@@ -141,6 +146,7 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
         onChange={props.updateRecord}
         onFocus={onFocus}
         active={props.active && field.id == props.activeField}
+        hideValidLabel={hideValidLabel}
         fieldRef={fieldRefs.current[field.id]}
         onKeyUp={(e) => {
           if (field.type != "reactSelect" && field.type != "createSelect") {
@@ -154,7 +160,11 @@ const GridRecord = (props: GridRecordProps): JSX.Element => {
     );
   });
 
-  return <FieldRow hide={props.hide}>{fieldElements}</FieldRow>;
+  return (
+    <FieldRow setHovered={setHovered} hide={props.hide}>
+      {fieldElements}
+    </FieldRow>
+  );
 };
 
 export default GridRecord;

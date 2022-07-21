@@ -18,4 +18,5 @@ export interface FieldInterface {
   max?: number;
   min?: number;
   step?: number;
+  hideValidLabel?: boolean;
 }

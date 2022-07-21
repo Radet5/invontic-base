@@ -80,6 +80,7 @@ const Grid = ({
     return (
       <GridRecord
         record={record}
+        recordIndex={index}
         updateRecord={updateRecord(record.id)}
         active={activeRecord == index}
         onFocus={() => focus(index)}
