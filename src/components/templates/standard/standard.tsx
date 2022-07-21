@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 
-import { Drawer } from "../../drawer/drawer";
+import { Drawer } from "../../atoms/drawer/drawer";
 
 import "./standard.scss";
 

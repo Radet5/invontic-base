@@ -3,7 +3,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 import { StandardTemplate } from "../templates/standard/standard";
-import { InvoiceNavigator } from "../invoice-navigator/invoice-navigator";
+import { InvoiceNavigator } from "../molecules/invoice-navigator/invoice-navigator";
 import { InvoiceGoodsEditor } from "../invoice-goods-editor/invoice-goods-editor";
 import { Invoice } from "../invoice/invoice";
 

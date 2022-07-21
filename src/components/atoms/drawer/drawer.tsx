@@ -27,28 +27,28 @@ export const Drawer = ({
     setIsOpen(false);
   };
 
-  const openClass = isOpen ? " m-drawer--open" : "";
-  const hideClass = hide ? " m-drawer__open-button--hide" : "";
-  const hideClassRight = hide ? " m-drawer__open-button-right--hide" : "";
+  const openClass = isOpen ? " a-drawer--open" : "";
+  const hideClass = hide ? " a-drawer__open-button--hide" : "";
+  const hideClassRight = hide ? " a-drawer__open-button-right--hide" : "";
   if (side === "left") {
     return (
       <Fragment>
         <button
-          className={`m-drawer__open-button${hideClass}`}
+          className={`a-drawer__open-button${hideClass}`}
           onClick={open}
           tabIndex={!isOpen ? undefined : -1}
         >
           &gt;
         </button>
-        <div className={`m-drawer${openClass}`}>
+        <div className={`a-drawer${openClass}`}>
           <button
-            className="m-drawer__close-button"
+            className="a-drawer__close-button"
             onClick={close}
             tabIndex={isOpen ? undefined : -1}
           >
             <span>&lt;</span>
           </button>
-          <div className="m-drawer__content">{children}</div>
+          <div className="a-drawer__content">{children}</div>
         </div>
       </Fragment>
     );
@@ -56,18 +56,18 @@ export const Drawer = ({
     return (
       <Fragment>
         <button
-          className={`m-drawer__open-button m-drawer__open-button-right${hideClassRight}`}
+          className={`a-drawer__open-button a-drawer__open-button-right${hideClassRight}`}
           onClick={open}
           tabIndex={!isOpen ? undefined : -1}
         >
           &lt;
         </button>
-        <div className={`m-drawer m-drawer-right${openClass}`}>
-          <div className="m-drawer__content m-drawer__content-right">
+        <div className={`a-drawer a-drawer-right${openClass}`}>
+          <div className="a-drawer__content a-drawer__content-right">
             {children}
           </div>
           <button
-            className="m-drawer__close-button"
+            className="a-drawer__close-button"
             onClick={close}
             tabIndex={isOpen ? undefined : -1}
           >

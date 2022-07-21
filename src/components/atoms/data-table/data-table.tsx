@@ -42,7 +42,7 @@ export const DataTable = ({
   };
 
   return (
-    <table className="o-data-table">
+    <table className="a-data-table">
       <thead>
         <tr>
           {columns.map((column) => (
@@ -57,8 +57,8 @@ export const DataTable = ({
             onClick={() => handleRowClick(row, index)}
             onDoubleClick={() => handleRowDoubleClick(row, index)}
             onContextMenu={() => handleRowContextMenu(row, index)}
-            className={`o-data-table__row${
-              index === selectedRowIndex ? " o-data-table__row--selected" : ""
+            className={`a-data-table__row${
+              index === selectedRowIndex ? " a-data-table__row--selected" : ""
             }`}
           >
             {columns.map((column) => {
@@ -67,7 +67,7 @@ export const DataTable = ({
                 displayValue = column.operation(row[column.id]);
               }
               return (
-                <td className="o-data-table__cell" key={column.id}>
+                <td className="a-data-table__cell" key={column.id}>
                   {displayValue.toString()}
                 </td>
               );
