@@ -1,7 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { jsonData } from "../invontic-base/temp_data";
-
 const blankInvoice = {
   id: "",
   supplier_id: "",
@@ -17,16 +15,6 @@ const blankInvoice = {
 
 export const InvoicesReducer = (state: any, action: any) => {
   switch (action.type) {
-    case "LOAD_INVOICES": {
-      const invoices: { [key: number]: any } = {};
-      Object.keys(jsonData.invoices).forEach((key) => {
-        invoices[parseInt(key)] = jsonData.invoices[parseInt(key)].data;
-      });
-      return {
-        ...state,
-        invoices: invoices,
-      };
-    }
     case "SELECT": {
       return {
         ...state,
