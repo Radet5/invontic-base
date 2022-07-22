@@ -83,7 +83,7 @@ export const InvoicePage = ({ userDispatch }: InvoicePageProps) => {
   const mainContent = invoicesState.error ? (
     <div>{invoicesState.error}</div>
   ) : selectedId != "" ? (
-    <Fragment>
+    <div>
       <button
         style={{ display: "block" }}
         onClick={() => invoicesDispatch({ type: "CREATE_INVOICE" })}
@@ -91,13 +91,14 @@ export const InvoicePage = ({ userDispatch }: InvoicePageProps) => {
         Create New Invoice
       </button>
       <Invoice
+        key="invoice"
         invoice={invoice}
         dispatch={invoicesDispatch}
         suppliers={jsonData.suppliers}
         invoiceTypes={jsonData.invoiceTypes}
         goods={goods}
       />
-    </Fragment>
+    </div>
   ) : (
     <div
       style={{
@@ -108,6 +109,14 @@ export const InvoicePage = ({ userDispatch }: InvoicePageProps) => {
       }}
     >
       <h2>Invoice Editor</h2>
+      <Invoice
+        key="invoice"
+        invoice={invoice}
+        dispatch={invoicesDispatch}
+        suppliers={jsonData.suppliers}
+        invoiceTypes={jsonData.invoiceTypes}
+        goods={goods}
+      />
       <button onClick={() => invoicesDispatch({ type: "CREATE_INVOICE" })}>
         Create New Invoice
       </button>
